@@ -1,0 +1,25 @@
+<h1 *ngIf="tournament">{{tournament.name}}</h1>
+<div class="container">
+  <mat-tab-group *ngIf="tournament">
+    <mat-tab label="Jogos">
+
+      <div class="teams_list">
+
+        <ng-container *ngFor="let round of tournament.rounds">
+          <ul class="list-group"><br>
+            <li class="list-group-item active">Rodada: {{round.number}}</li>
+            <ul class="list-group">
+              <li class="list-group-item" *ngFor="let game of round.games">
+                {{game.home.name}} X {{game.away.name}}
+              </li>
+            </ul>
+          </ul>
+        </ng-container>
+      </div>
+
+    </mat-tab>
+    <mat-tab label="Tabelas">
+      Tabelas
+    </mat-tab>
+  </mat-tab-group>
+</div>

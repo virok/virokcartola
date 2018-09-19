@@ -1,0 +1,12 @@
+<h1>Campeonatos</h1>
+<div class="container">
+  <div class="tournament_list">
+    <div class="list-group">
+      <a href="#"  [routerLink]="['/tournament-details',tournament.id]" routerLinkActive="router-link-active" class="list-group-item list-group-item-action" *ngFor="let tournament of tournaments">
+        {{tournament.name}}
+      </a>
+    </div>
+
+  </div>
+
+</div>
