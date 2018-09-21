@@ -7,7 +7,11 @@ import {MatButtonModule,
   MatExpansionModule,
   MatDialogModule,
   MatDatepickerModule,
-  MatTabsModule
+  MatTabsModule,
+  MatProgressSpinnerModule,
+  MatTableModule,
+  MatPaginatorModule,
+  MatSortModule
 
 } from '@angular/material';
 
@@ -60,7 +64,11 @@ import { TournamentListComponent } from './components/tournament-list/tournament
     MatExpansionModule,
     MatDialogModule,
     MatDatepickerModule,
-    MatTabsModule
+    MatTabsModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [
     RepositoryService,

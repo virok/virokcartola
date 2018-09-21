@@ -1,3 +1,31 @@
-<p>
-  add-scores works!
-</p>
+<h1>Inclua a pontuação da rodada</h1>
+<div *ngIf="!showPage">
+  Inclua um ou mais campeonatos e times antes de incluir a pontuação!
+</div>
+<div class="container" id="add-score" *ngIf="showPage">
+  <form #teamForm="ngForm" (ngSubmit)="add(teamForm)">
+    <div class="add_score_list">
+      <p>Times ({{teams.length}} )</p>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let teamItem of teams">
+          {{teamItem.name}}
+          <input type="text" class="form-control" [attr.name]="teamItem.name" [(ngModel)]="teamItem.score" name="{{teamItem.name}}"  #input_name required >
+
+          <!-- <input type="text" class="form-control" id="name" name="name" [(ngModel)]="team.name" #name="ngModel" #input_name required> -->
+          <div *ngIf="teamItem.name.errors && (teamItem.name.dirty || teamItem.name.touched)" class="alert alert-danger">
+            <div [hidden]="!teamItem.name.errors.required">
+              obrigatório.
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <br>
+      <div>
+
+        <button id="add-team" name="add-team" class="btn btn-primary" type="submit" [disabled]="!teamForm.form.valid">
+          Adicionar</button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -53,4 +53,9 @@ export class RepositoryService<T extends IIdentifier> {
     const data = JSON.parse(JSON.stringify(instance));
     return this.db.collection(collectionName).add(data);
   }
+
+  update(collectionName, instance: T) {
+    const data = JSON.parse(JSON.stringify(instance));
+    return this.db.collection(collectionName).doc(instance.id).set(data, { merge: true })
+  }
 }

@@ -28,8 +28,11 @@ export class TournamentService {
     return this.repository.get(this.collectionName,id);
   }
 
-  add(tournamnet: Tournament) {
-    return this.repository.add(this.collectionName,tournamnet);
+  add(tournament: Tournament) {
+    return this.repository.add(this.collectionName, tournament);
+  }
+  update(tournament: Tournament): any {
+    return this.repository.update(this.collectionName, tournament);
   }
 
   public create(tournament: Tournament) {

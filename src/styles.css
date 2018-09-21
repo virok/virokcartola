@@ -30,3 +30,21 @@ body {
 .ng-invalid:not(form)  {
   border-left: 5px solid #a94442; /* red */
 }
+
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 25%;
+}
+
+.add_score_list input {
+  width: 50%;
+  float: right;
+}

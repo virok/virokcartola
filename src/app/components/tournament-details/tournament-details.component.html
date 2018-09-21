@@ -1,16 +1,16 @@
-<h1 *ngIf="tournament">{{tournament.name}}</h1>
+<h1 >{{tournament?.name}}</h1>
 <div class="container">
-  <mat-tab-group *ngIf="tournament">
+  <mat-tab-group >
     <mat-tab label="Jogos">
 
       <div class="teams_list">
 
-        <ng-container *ngFor="let round of tournament.rounds">
+        <ng-container *ngFor="let round of tournament?.rounds">
           <ul class="list-group"><br>
             <li class="list-group-item active">Rodada: {{round.number}}</li>
             <ul class="list-group">
               <li class="list-group-item" *ngFor="let game of round.games">
-                {{game.home.name}} X {{game.away.name}}
+                {{game.home.name}} <label>{{game.home_score}}</label> X <label>{{game.away_score}}</label> {{game.away.name}}
               </li>
             </ul>
           </ul>
@@ -19,7 +19,8 @@
 
     </mat-tab>
     <mat-tab label="Tabelas">
-      Tabelas
+
+      <app-table [tournament]="tournament" [tournamentId]="id"></app-table>
     </mat-tab>
   </mat-tab-group>
 </div>

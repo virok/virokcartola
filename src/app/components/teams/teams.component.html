@@ -1,4 +1,5 @@
 <h1>Gerencie seus times</h1>
+<label>Atenção, os times inclusos agora, não faram parte de campeonatos pré existentes</label>
 <div class="container">
   <form #teamForm="ngForm">
     <div class="form-group">
@@ -6,7 +7,7 @@
       <input type="text" class="form-control" id="name" name="name" [(ngModel)]="team.name" #name="ngModel" #input_name required>
       <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
         <div [hidden]="!name.errors.required">
-          Time e obrigatorio.
+          Time e obrigatório.
         </div>
       </div>
     </div>

@@ -16,4 +16,5 @@ export class TableData extends IIdentifier {
   wins: number;
   loses: number;
   draw: number;
+  inputPoints: number;
 }
