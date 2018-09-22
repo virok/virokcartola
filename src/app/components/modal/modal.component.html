@@ -1,0 +1,18 @@
+<div class="{{theme}}">
+  <h2 mat-dialog-title [hidden]="!showTitle">{{title}}</h2>
+  <mat-dialog-content id="account-created">
+    <div class="mat-dialog-content" *ngIf="!isHtmlContent">
+      <p>{{content}}</p>
+    </div>
+
+    <div>
+      <div class="mat-dialog-content" *ngIf="isHtmlContent">
+        <p [innerHTML]="content"></p>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false" [aria-label]="cancelButtonText" *ngIf="showCancelButton" class="mat-primary mat-button blue"><label>{{cancelButtonText}}</label></button>
+    <button mat-button [mat-dialog-close]="true" [aria-label]="cancelButtonText" *ngIf="showOkButton" class="mat-primary mat-button blue"><label>{{okButtonText}}</label></button>
+  </mat-dialog-actions>
+</div>
