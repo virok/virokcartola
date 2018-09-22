@@ -11,4 +11,12 @@ export class Tournament extends IIdentifier {
   isRoundRobin: boolean;
   table: Table;
   rounds: Round[];
+  tournamentType: TournamentType
+}
+
+export enum TournamentType {
+  RoundRobin = "Round Robin", //Brasileiro
+  SingleElimination = "Single Elimination",
+  DoubleElimination = "Double Elimination", //Copa do Brasil
+  Custom = "Custom",
 }

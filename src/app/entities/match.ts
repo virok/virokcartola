@@ -10,4 +10,5 @@ export class Match extends IIdentifier {
   away: Team;
   home_score: number;
   away_score: number;
+  group_name: string; // name used to group matches such as home and away, for better logic
 }
