@@ -31,13 +31,13 @@ import { TournamentDetailsComponent } from './components/tournament-details/tour
 import { TableComponent } from './components/table/table.component';
 import { RoundsComponent } from './components/rounds/rounds.component';
 import { AddScoresComponent } from './components/add-scores/add-scores.component';
-import { ModealComponent } from './components/modal/modeal/modeal.component';
 import { TournamentService } from 'src/app/services/tournament/tournament.service';
 import { RoundService } from './services/round/round.service';
 import { TableService } from './services/table/table.service';
 import { MatchService } from './services/match/match.service';
 import { BaseService } from './services/base/base.service';
 import { TournamentListComponent } from './components/tournament-list/tournament-list.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -48,9 +48,11 @@ import { TournamentListComponent } from './components/tournament-list/tournament
     TableComponent,
     RoundsComponent,
     AddScoresComponent,
-    ModealComponent,
-    TournamentListComponent
+    TournamentListComponent,
+    ModalComponent
   ],
+  entryComponents : [
+    ModalComponent],
   imports: [
     AppRoutingModule, BrowserModule, NgbModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase, environment.firebase.projectId), // imports firebase/app needed for everything

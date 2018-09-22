@@ -58,8 +58,8 @@ export class TableService extends BaseService<Table> {
         this.setDrawPoints(homeTeamTableData, awayTeamTableData);
       }
 
-      homeTeamTableData.inputPoints = match.home_score;
-      awayTeamTableData.inputPoints = match.away_score;
+      homeTeamTableData.inputPoints = homeTeamTableData.inputPoints + (match.home_score - match.away_score);
+      awayTeamTableData.inputPoints = awayTeamTableData.inputPoints + (match.away_score - match.home_score);
 
     });
 

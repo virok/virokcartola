@@ -12,11 +12,11 @@
     </div>
 
     <div class="form-group">
-        <label for="roundrobin">Ida e Volta:</label>
-        <input type="checkbox" [checked]="isRoundrobin" (change)="isRoundrobin = !isRoundrobin" />
+        <mat-checkbox [checked]="isRoundRobin" name="isRoundRobin" [(ngModel)]="tournament.isRoundRobin"
+        >Ida e Volta</mat-checkbox>
     </div>
 
-    <button id="add-tournament" name="add-tournament" class="btn btn-primary" (click)="generate();" type="submit"
+    <button id="add-tournament" name="add-tournament" class="btn btn-primary" (click)="createTournament();" type="submit"
      [disabled]="!tournamentForm.form.valid">
       Adicionar</button>
   </form>

@@ -14,7 +14,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 export class TournamentComponent implements OnInit {
 
   tournament: Tournament;
-  isRoundrobin: boolean;
+  isRoundRobin: boolean;
   @ViewChild('input_name') tournamentNameInput: ElementRef;
 
   constructor(private _tournamentService: TournamentService,
@@ -28,14 +28,8 @@ export class TournamentComponent implements OnInit {
     // });
   }
 
-  generate(){
-    const created = this._tournamentService.create(this.tournament);
-    if(created){
-      this._router.navigate(['tournament-list']);
-      // this._router.navigate(['tournament_details'], {
-      //   queryParams: { eventId: this.eventId, first: this.first }
-      // });
-    }
+  createTournament(){
+    this._tournamentService.createTournament(this.tournament);
   }
 
 }

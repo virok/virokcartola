@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { TeamsService } from 'src/app/services/teams/teams.service';
 import { Team } from 'src/app/entities/team';
 import { Observable } from 'rxjs';
+import { ModalService } from '../../services/modal/modal.service';
 
 @Component({
   selector: 'app-teams',
@@ -13,7 +14,7 @@ export class TeamsComponent implements OnInit {
   team: Team;
   @ViewChild('input_name') teamNameInput: ElementRef;
 
-  constructor(private _teamsService: TeamsService) { }
+  constructor(private _teamsService: TeamsService, private _modalService: ModalService) { }
 
   ngOnInit() {
     this.team = new Team();
@@ -39,10 +40,11 @@ export class TeamsComponent implements OnInit {
 
           setTimeout(() => {
             this.teamNameInput.nativeElement.focus();
+            this._modalService.success("Time Adicionado com sucesso");
           }, 100);
 
         } else {
-          alert('Erro ao incluir time');
+          this._modalService.error('Erro ao incluir time');
         }
       });
     }

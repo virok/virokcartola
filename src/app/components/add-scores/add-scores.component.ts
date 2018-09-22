@@ -5,6 +5,8 @@ import { NgForm } from '@angular/forms';
 import { TournamentService } from '../../services/tournament/tournament.service';
 import { Tournament } from '../../entities/tournament';
 import { TableService } from '../../services/table/table.service';
+import { Router } from '@angular/router';
+import { ModalService } from '../../services/modal/modal.service';
 
 @Component({
   selector: 'app-add-scores',
@@ -16,7 +18,9 @@ export class AddScoresComponent implements OnInit {
   showPage: boolean = false;
   tournaments: Tournament[];
 
-  constructor(private _teamsService: TeamsService, private _tournamentService: TournamentService, private _tableService: TableService) { }
+  constructor(private _teamsService: TeamsService, private _tournamentService: TournamentService
+    , private _tableService: TableService, private _router: Router,
+    private _modalService: ModalService) { }
 
   ngOnInit() {
     this.teams = new Array<Team>();
@@ -40,12 +44,11 @@ export class AddScoresComponent implements OnInit {
 
   add(inputs: NgForm) {
     const data = inputs.value;
-
+    let hasTournamentRoundsToPopulate = false;
     //for each tournament
     this.tournaments.forEach(tournament => {
 
       let foundAnEmptyRound = false;
-
 
       tournament.rounds.forEach(round => {
 
@@ -62,19 +65,27 @@ export class AddScoresComponent implements OnInit {
             });
 
             foundAnEmptyRound = true;
-
+            hasTournamentRoundsToPopulate = true;
             //After every team has its score updated for that round
             //create a table data / table if not created yet.
             this._tableService.createOrUpdateTable(tournament, round);
 
             //persist match values in FIRE STORE NOSQL
             //TODO Check if it is going to update
-            this._tournamentService.update(tournament);
+            this._tournamentService.update(tournament,false);
+
+            //redict to tournaments page
+            this._router.navigate(["tournament-list"]);
           }
         }
-      })
+      });
 
     });
 
+    if(!hasTournamentRoundsToPopulate){
+      this._modalService.warning("Todos os Campeonatos já estao preenchidos");
+        //redict to tournaments page
+        this._router.navigate(["tournament-list"]);
+    }
   }
 }

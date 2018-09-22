@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'tournament-details/:id', component: TournamentDetailsComponent },
   {
     path: '**',
-    redirectTo: '/',
+    redirectTo: 'tournament-list',
     pathMatch: 'full'
   }
 ];
