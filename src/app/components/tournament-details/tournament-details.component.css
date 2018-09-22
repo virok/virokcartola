@@ -1,0 +1,15 @@
+.winner{
+  background-color: lightgreen;
+  padding: 2px;
+}
+
+.loser{
+  background-color: lightcoral;
+  padding: 2px;
+}
+
+.list-group-item label{
+  background-color: lightgray;
+  padding: 2px;
+}
+

@@ -38,6 +38,8 @@ import { MatchService } from './services/match/match.service';
 import { BaseService } from './services/base/base.service';
 import { TournamentListComponent } from './components/tournament-list/tournament-list.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { FooterMenuComponent } from './components/footer-menu/footer-menu.component';
+import { TopMenuComponent } from './components/top-menu/top-menu.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { ModalComponent } from './components/modal/modal.component';
     RoundsComponent,
     AddScoresComponent,
     TournamentListComponent,
-    ModalComponent
+    ModalComponent,
+    FooterMenuComponent,
+    TopMenuComponent
   ],
   entryComponents : [
     ModalComponent],

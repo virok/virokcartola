@@ -10,7 +10,9 @@
             <li class="list-group-item active">Rodada: {{round.number}}</li>
             <ul class="list-group">
               <li class="list-group-item" *ngFor="let game of round.games">
-                {{game.home.name}} <label>{{game.home_score}}</label> X <label>{{game.away_score}}</label> {{game.away.name}}
+                {{game.home.name}} <label >{{game.home_score}}</label>
+                 X
+                <label>{{game.away_score}}</label> {{game.away.name}}
               </li>
             </ul>
           </ul>

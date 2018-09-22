@@ -3,6 +3,23 @@
 /* @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
 @import '~@angular/material/prebuilt-themes/purple-green.css'; */
+@import '~material-bottom-nav';
+
+$bottom-nav-action-horizontal-margin: 4px; // reduce the horizontal gutter between actions
+$bottom-nav-icon-font-size: 20px; // increase the icon size
+.bottom-nav__action--active .bottom-nav__label {
+  font-size: 12px!important;
+
+}
+
+a:hover{
+  color: gray;
+}
+
+
+.bottom-nav {
+  @include bottom-nav($background-color: rgba(0,0,0,.87), $active-color: #FFFFFF, $inactive-color: #E0E0E0, $hide-inactive-labels: false);
+}
 
 body {
   padding-top: 5rem;
@@ -11,6 +28,7 @@ body {
 .container {
   padding-left: 2px!important;
   padding-right: 2px!important;
+  padding-bottom: 50px;
 }
 /* .starter-template {
   padding: 3rem 1.5rem;
@@ -114,6 +132,23 @@ th:nth-child(2) {
   }
 }
 
+/*Menu */
+#bottom_nav_menu{
+  display:none;
+}
+.navbar-toggler{
+  display: block;
+}
+@media only screen and (max-width:960px){
+  #bottom_nav_menu{
+    display:block;
+  }
+  .navbar-toggler{
+    display: none;
+  }
+ }
+
+
 /*Tables*/
 tr.mat-header-row{
   height: 20px!important;
@@ -172,6 +207,6 @@ h6 { font-size: .65em; }
 }
 
 
-#tournamentDetails{
-  padding-bottom: 20px;
-}
+// #tournamentDetails{
+//   padding-bottom: 20px;
+// }
