@@ -29,6 +29,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 #Firebase
 Project Console: https://console.firebase.google.com/project/cartolabyvirok/overview
 Hosting URL: https://cartolabyvirok.firebaseapp.com
+First, Deploy your angular project with ng build, and then firebase deploy
 Deploy: firebase deploy
 Local Deploy: firebase serve
 <!-- ##Check/See the app runing in Electron

@@ -1,4 +1,7 @@
 <h1>Campeonatos</h1>
+<p *ngIf="tournaments?.length == 0">
+  Nenhum Campeonato Cadastrado, cadastre times e depois campeonatos.
+</p>
 <div class="container">
   <div class="tournament_list">
     <div class="list-group">
