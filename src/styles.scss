@@ -43,9 +43,9 @@ body {
   font-weight: bold;
 }
 
-.teams_list{
-  margin-top:10px;
-}
+// .teams_list{
+//   margin-top:10px;
+// }
 
 .ng-valid[required], .ng-valid.required  {
   border-left: 5px solid #42A948; /* green */
@@ -199,14 +199,37 @@ h6 { font-size: .65em; }
 
 /*lists*/
 .list-group-item {
-  padding: .25rem 1.25rem;
+  padding: .75rem 1.25rem;
+}
+
+#tournament_details_teams .list-group-item {
+  padding: .25rem 1.25rem!important;
 }
 
 .mat-tab-label{
   height: 25px!important;
 }
+.mat-tab-label, .mat-tab-link {
+  font-size: 12px!important;
+  font-weight: bold;
+  background-color: lightgrey;
+  border-radius: 20px 20px 0px 0px;
+}
 
+.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: black;
+}
 
 // #tournamentDetails{
 //   padding-bottom: 20px;
 // }
+
+.button_placeholder{
+  padding-left: 0px!important;
+  padding-right: 0px!important;
+}
+.button_placeholder button{
+  width: 100%;
+  font-size: 13px;
+  font-weight: bold;
+}

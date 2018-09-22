@@ -3,7 +3,8 @@
   <form #tournamentForm="ngForm">
     <div class="form-group">
       <label for="name">Nome do Campeonato:</label>
-      <input type="text" class="form-control" id="name" name="name" [(ngModel)]="tournament.name" #name="ngModel" #input_name required>
+      <input type="text" class="form-control" id="name" name="name" [(ngModel)]="tournament.name" #name="ngModel"
+        #input_name required>
       <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
         <div [hidden]="!name.errors.required">
           Nome do Campeonato e obrigatório.
@@ -11,13 +12,16 @@
       </div>
     </div>
 
+    <!-- IMG PICKER and/or url placement for Tournament-->
+
     <div class="form-group">
-        <mat-checkbox [checked]="isRoundRobin" name="isRoundRobin" [(ngModel)]="tournament.isRoundRobin"
-        >Ida e Volta</mat-checkbox>
+      <mat-checkbox [checked]="isRoundRobin" name="isRoundRobin" [(ngModel)]="tournament.isRoundRobin">Ida e Volta</mat-checkbox>
     </div>
 
-    <button id="add-tournament" name="add-tournament" class="btn btn-primary" (click)="createTournament();" type="submit"
-     [disabled]="!tournamentForm.form.valid">
-      Adicionar</button>
+    <div class="col-md-4 text-center button_placeholder">
+      <button id="add-tournament" name="add-tournament" class="btn btn-primary" (click)="createTournament();" type="submit"
+        [disabled]="!tournamentForm.form.valid">
+        Adicionar</button>
+    </div>
   </form>
 </div>

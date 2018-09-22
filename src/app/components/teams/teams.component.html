@@ -4,19 +4,33 @@
   <form #teamForm="ngForm">
     <div class="form-group">
       <label for="name">Time:</label>
-      <input type="text" class="form-control" id="name" name="name" [(ngModel)]="team.name" #name="ngModel" #input_name required>
+      <input type="text" class="form-control" id="name" name="name" [(ngModel)]="team.name" #name="ngModel" #input_name
+        required>
       <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
         <div [hidden]="!name.errors.required">
           Time e obrigatório.
         </div>
       </div>
+
+      <!-- <label for="name">Cartoleiro:</label>
+      <input type="text" class="form-control" id="cartoleiro" name="cartoleiro" [(ngModel)]="team.cartoleiro" #name="ngModel" #input_cartoleiro required>
+      <div *ngIf="cartoleiro.errors && (cartoleiro.dirty || cartoleiro.touched)" class="alert alert-danger">
+        <div [hidden]="!cartoleiro.errors.required">
+            Cartoleiro e obrigatório.
+        </div>
+      </div> -->
+
+      <!-- IMG PICKER for team-->
+
     </div>
 
-    <button id="add-team" name="add-team" class="btn btn-primary" (click)="add();" type="submit"
-     [disabled]="!teamForm.form.valid">
-      Adicionar</button>
+    <div class="col-md-4 text-center button_placeholder" >
+      <button id="add-team" name="add-team" class="btn btn-primary" (click)="add();" type="submit" [disabled]="!teamForm.form.valid">
+        Adicionar</button>
+    </div>
   </form>
 
+  <br>
   <div class="teams_list">
     <p>Times ({{teams.length}} )</p>
     <ul class="list-group">
