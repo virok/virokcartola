@@ -1,0 +1,112 @@
+/*
+ *  Flex Layout Specifics
+*/
+main{
+  display:flex;
+  flex-direction:row;
+}
+.round{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  width:200px;
+  list-style:none;
+  padding:0;
+}
+  .round .spacer{ flex-grow:1; }
+  .round .spacer:first-child,
+  .round .spacer:last-child{ flex-grow:.5; }
+
+  .round .game-spacer{
+    flex-grow:1;
+  }
+
+/*
+ *  General Styles
+*/
+#tournament-bracket{
+  padding:10px;
+  line-height:1.4em;
+}
+
+li.game{
+  padding-left:20px;
+  min-width: 80px;
+}
+
+  li.game.winner{
+    font-weight:bold;
+    color: darkgreen;
+  }
+
+  li.game.loser{
+    font-weight:bold;
+    color: darkred;
+  }
+
+  li.game span{
+    float:right;
+    margin-right:5px;
+  }
+
+  li.game-top{ border-bottom:1px solid #aaa; }
+
+  li.game-spacer{
+    border-right:5px solid #aaa;
+    min-height:40px;
+
+  }
+
+    .spacer span{
+      background-color: #aaa;
+
+      border: solid 1px black;
+      padding: 10px 0px 10px 0px;
+      display: block;
+      margin-right: 5px;
+    }
+   .spacer:first-child{
+      text-align: center;
+      font-weight: bold;
+      font-size: 9px;
+      visibility: visible;
+      margin-bottom: 20px;
+    }
+
+    .spacer:not(:first-child){
+      visibility: hidden;
+    }
+
+  li.game-bottom{
+    border-top:1px solid #aaa;
+  }
+
+  @media (min-width: 858px) {
+    #tournament-bracket {
+        font-size: 13px;
+    }
+  }
+
+  @media (min-width: 780px) {
+    #tournament-bracket {
+        font-size: 12px;
+    }
+  }
+
+  @media (min-width: 702px) {
+    #tournament-bracket{
+        font-size: 11px;
+    }
+  }
+
+  @media (min-width: 724px) {
+    #tournament-bracket {
+        font-size: 10px;
+    }
+  }
+
+  @media (max-width: 623px) {
+    #tournament-bracket {
+        font-size: 9px;
+    }
+  }

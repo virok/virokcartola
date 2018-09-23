@@ -6,6 +6,7 @@ import { TournamentComponent } from './components/tournament/tournament.componen
 import { TournamentListComponent } from 'src/app/components/tournament-list/tournament-list.component';
 import { TournamentDetailsComponent } from './components/tournament-details/tournament-details.component';
 import { AddScoresComponent } from 'src/app/components/add-scores/add-scores.component';
+import { BracketComponent } from './components/bracket/bracket.component';
 
 const routes: Routes = [
   { path: 'teams', component: TeamsComponent },
@@ -13,9 +14,10 @@ const routes: Routes = [
   { path: 'add-scores', component: AddScoresComponent },
   { path: 'tournament-list', component: TournamentListComponent },
   { path: 'tournament-details/:id', component: TournamentDetailsComponent },
+  { path: 'bracket', component: BracketComponent }, //remove this later
   {
     path: '**',
-    redirectTo: 'tournament-list',
+    redirectTo: '/',
     pathMatch: 'full'
   }
 ];

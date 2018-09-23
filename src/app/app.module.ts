@@ -40,6 +40,7 @@ import { TournamentListComponent } from './components/tournament-list/tournament
 import { ModalComponent } from './components/modal/modal.component';
 import { FooterMenuComponent } from './components/footer-menu/footer-menu.component';
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
+import { BracketComponent } from './components/bracket/bracket.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { TopMenuComponent } from './components/top-menu/top-menu.component';
     TournamentListComponent,
     ModalComponent,
     FooterMenuComponent,
-    TopMenuComponent
+    TopMenuComponent,
+    BracketComponent
   ],
   entryComponents : [
     ModalComponent],
