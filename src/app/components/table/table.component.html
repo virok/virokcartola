@@ -5,7 +5,7 @@
   <table mat-table [dataSource]="dataSource" matSort>
 
     <ng-container matColumnDef="position">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Posição </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> # </th>
       <td mat-cell *matCellDef="let row"> {{row.position}} </td>
     </ng-container>
 
@@ -15,17 +15,17 @@
     </ng-container>
 
     <ng-container matColumnDef="wins">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Vitória </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> V </th>
       <td mat-cell *matCellDef="let row"> {{row.wins}} </td>
     </ng-container>
 
     <ng-container matColumnDef="draw">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Empate </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> E </th>
       <td mat-cell *matCellDef="let row"> {{row.draw}} </td>
     </ng-container>
 
     <ng-container matColumnDef="loses">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Derrota </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> D </th>
       <td mat-cell *matCellDef="let row"> {{row.loses}} </td>
     </ng-container>
 
@@ -44,5 +44,5 @@
     </tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[16, 32, 64, 100]" [pageSize]="32"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[16, 32, 64, 100]" [pageSize]="32" *ngIf="tournament?.table?.rows?.lenght>32"></mat-paginator>
 </div>

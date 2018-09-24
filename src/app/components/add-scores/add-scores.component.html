@@ -9,7 +9,8 @@
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let teamItem of teams">
           {{teamItem.name}}
-          <input type="text" class="form-control" [attr.name]="teamItem.name" [(ngModel)]="teamItem.score" name="{{teamItem.name}}"  #input_name required >
+          <input type="text" class="form-control" [attr.name]="teamItem.name" autocomplete="off"
+          [(ngModel)]="teamItem.score" name="{{teamItem.name}}"  #input_name required >
 
           <!-- <input type="text" class="form-control" id="name" name="name" [(ngModel)]="team.name" #name="ngModel" #input_name required> -->
           <div *ngIf="teamItem.name.errors && (teamItem.name.dirty || teamItem.name.touched)" class="alert alert-danger">

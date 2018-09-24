@@ -4,7 +4,7 @@
   <form #teamForm="ngForm">
     <div class="form-group">
       <label for="name">Time:</label>
-      <input type="text" class="form-control" id="name" name="name" [(ngModel)]="team.name" #name="ngModel" #input_name
+      <input type="text" class="form-control" id="name" name="name" [(ngModel)]="team.name" #name="ngModel" autocomplete="off" #input_name
         required>
       <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
         <div [hidden]="!name.errors.required">

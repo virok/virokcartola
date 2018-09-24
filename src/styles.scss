@@ -7,15 +7,83 @@
 
 $bottom-nav-action-horizontal-margin: 4px; // reduce the horizontal gutter between actions
 $bottom-nav-icon-font-size: 20px; // increase the icon size
-.bottom-nav__action--active .bottom-nav__label {
-  font-size: 12px!important;
 
+$font-size: 1.75rem!important;
+$font-size-bottom-nav: 1.75rem!important;
+$font-size-button: 2.5rem!important;
+
+$font-size-small: 1rem!important;
+$font-size-bottom-nav-small: 0.75rem!important;
+$font-size-button-small:1.5rem!important;
+
+$font-size-tablet: 1rem!important;
+$font-size-bottom-nav-tablet: 0.75rem!important;
+$font-size-button-tablet:1.5rem!important;
+
+$default-max-width:430px;
+$default-tablet-width:960px;
+
+.bottom-nav__action--active .bottom-nav__label {
+  font-size: $font-size-bottom-nav;
 }
+
+/*small screens Iphone SE and nexus 5*/
+@media (max-width: $default-max-width) {
+  .bottom-nav__action--active .bottom-nav__label {
+    font-size:$font-size-bottom-nav-small
+  }
+  // .mat-tab-label{
+  //   font-size:$font-size-small;
+  // }
+
+  // .mat-paginator, .mat-paginator-page-size .mat-select-trigger,
+  // .mat-header-cell,
+  // .mat-cell, .mat-footer-cell {
+  //   font-size: $font-size-small;
+  // }
+
+  .button_placeholder button{
+    font-size: $font-size-button-small;
+    }
+
+  body {
+    font-size:$font-size-small;
+  }
+}
+
+/*tablet or desktop*/
+@media (max-width: $default-tablet-width) {
+  .bottom-nav__action--active .bottom-nav__label {
+    font-size:$font-size-bottom-nav-tablet
+  }
+  // .mat-tab-label{
+  //   font-size:$font-size-tablet;
+  // }
+
+  // .mat-paginator, .mat-paginator-page-size .mat-select-trigger,
+  // .mat-header-cell,
+  // .mat-cell, .mat-footer-cell {
+  //   font-size: $font-size-tablet;
+  // }
+
+  .button_placeholder button{
+    font-size: $font-size-button-tablet;
+    }
+
+  body {
+    font-size:$font-size-tablet;
+  }
+}
+
+// @media (max-width: 623px) {
+//   .list-group-item {
+//     padding: 1.2rem 1.25rem!important;
+//   }
+// }
 
 a:hover{
   color: gray;
 }
-
 
 .bottom-nav {
   @include bottom-nav($background-color: rgba(0,0,0,.87), $active-color: #FFFFFF, $inactive-color: #E0E0E0, $hide-inactive-labels: false);
@@ -23,6 +91,7 @@ a:hover{
 
 body {
   padding-top: 5rem;
+  // font-size: $font-size;
 }
 
 .container {
@@ -30,22 +99,10 @@ body {
   padding-right: 2px!important;
   padding-bottom: 50px;
 }
-/* .starter-template {
-  padding: 3rem 1.5rem;
-
-} */
 
 .starter-template h1{
   text-align: center;
 }
-
-.starter-template label{
-  font-weight: bold;
-}
-
-// .teams_list{
-//   margin-top:10px;
-// }
 
 .ng-valid[required], .ng-valid.required  {
   border-left: 5px solid #42A948; /* green */
@@ -59,7 +116,6 @@ table {
 }
 
 .mat-form-field {
-  /* font-size: 14px; */
   width: 100%;
 }
 
@@ -73,64 +129,25 @@ td:nth-child(2),
 th:nth-child(2) {
   width: 30%;
 }
-/* td:first, th:first {
-  width: 5%;
-} */
 
 .add_score_list input {
   width: 50%;
   float: right;
 }
 
-@media (min-width: 858px) {
-  .mat-tab-label,
-  .mat-paginator, .mat-paginator-page-size .mat-select-trigger,
-  .mat-header-cell,
-  .mat-cell, .mat-footer-cell,
-  html {
-      font-size: 13px;
-  }
-}
+// .list-group-item {
+//   padding: 0.75rem 0.75rem!important;
+// }
 
-@media (min-width: 780px) {
-  .mat-tab-label,
-  .mat-paginator, .mat-paginator-page-size .mat-select-trigger,
-  .mat-header-cell,
-  .mat-cell, .mat-footer-cell,
-  html {
-      font-size: 12px;
-  }
-}
+// .mat-tab-label{
+//   font-size:$font-size;
+// }
 
-@media (min-width: 702px) {
-  .mat-tab-label,
-  .mat-paginator, .mat-paginator-page-size .mat-select-trigger,
-  .mat-header-cell,
-  .mat-cell, .mat-footer-cell,
-  html {
-      font-size: 11px;
-  }
-}
-
-@media (min-width: 724px) {
-  .mat-tab-label,
-  .mat-paginator, .mat-paginator-page-size .mat-select-trigger,
-  .mat-header-cell,
-  .mat-cell, .mat-footer-cell,
-  html {
-      font-size: 10px;
-  }
-}
-
-@media (max-width: 623px) {
-  .mat-tab-label,
-  .mat-paginator, .mat-paginator-page-size .mat-select-trigger,
-  .mat-header-cell,
-  .mat-cell, .mat-footer-cell,
-  html {
-      font-size: 9px;
-  }
-}
+// .mat-paginator, .mat-paginator-page-size .mat-select-trigger,
+// .mat-header-cell,
+// .mat-cell, .mat-footer-cell {
+//   font-size: $font-size;
+// }
 
 /*Menu */
 #bottom_nav_menu{
@@ -139,7 +156,7 @@ th:nth-child(2) {
 .navbar-toggler{
   display: block;
 }
-@media only screen and (max-width:960px){
+@media only screen and (max-width:$default-tablet-width){
   #bottom_nav_menu{
     display:block;
   }
@@ -198,22 +215,24 @@ h6 { font-size: .65em; }
 
 
 /*lists*/
-.list-group-item {
-  padding: .75rem 1.25rem;
-}
+// .list-group-item {
+//   padding: .75rem 1.25rem;
+// }
 
 #tournament_details_teams .list-group-item {
-  padding: .25rem 1.25rem!important;
+  padding: .25rem .25rem!important;
 }
 
 .mat-tab-label{
   height: 25px!important;
 }
 .mat-tab-label, .mat-tab-link {
-  font-size: 12px!important;
   font-weight: bold;
   background-color: lightgrey;
   border-radius: 20px 20px 0px 0px;
+}
+.mat-tab-link{
+  font-size: 12px!important;
 }
 
 .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
@@ -227,9 +246,10 @@ h6 { font-size: .65em; }
 .button_placeholder{
   padding-left: 0px!important;
   padding-right: 0px!important;
+  width: 100%;
 }
 .button_placeholder button{
   width: 100%;
-  font-size: 13px;
+  // font-size: $font-size-button;
   font-weight: bold;
 }

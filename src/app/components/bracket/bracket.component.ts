@@ -3,6 +3,7 @@ import { Tournament, TournamentType } from "../../entities/tournament";
 import { Round } from "../../entities/round";
 import { Match } from "../../entities/match";
 import { Team } from "../../entities/team";
+import { BracketRound } from "src/app/entities/BracketRound";
 
 @Component({
   selector: "app-bracket",
@@ -21,7 +22,7 @@ export class BracketComponent implements OnInit {
 
   private loadFakeTournament() {
     this.tournament = new Tournament();
-    this.tournament.isRoundRobin = false;
+    this.tournament.isRoundRobin = true;
     this.tournament.name = "Fake Tournament";
     this.tournament.tournamentType = this.tournament.isRoundRobin
       ? TournamentType.DoubleElimination
@@ -50,22 +51,35 @@ export class BracketComponent implements OnInit {
         let index1 = previousIndex == 0 ? k : previousIndex + 1;
         let index2 = index1 + 1;
         previousIndex = index2;
-        //adding a game
-        let currentGame = new Match();
-        currentGame.home = new Team();
-        currentGame.home.name = teamsArray[index1];
-        currentGame.home_score = 3;
-        currentGame.away = new Team();
-        currentGame.away.name = teamsArray[index2];
-        currentGame.away_score = 0;
-        if (!currentRound.games) {
-          currentRound.games = new Array<Match>();
+
+        if (!currentRound.bracket_rounds) {
+          currentRound.bracket_rounds = new Array<BracketRound>();
         }
-        currentRound.games.push(currentGame);
+
+        let bracketRound = new BracketRound();
+        bracketRound.number = k+1;
+
+        if(!bracketRound.games){
+          bracketRound.games = new Array<Match>();
+        }
+
+        //adding a game
+        let firstGame = this.createGame(teamsArray, index1, index2, 3, 0);
+        bracketRound.games.push(firstGame);
+
+        if(this.tournament.isRoundRobin){
+          let secondGame = this.createGame(teamsArray, index2, index1, 2, 0);
+          bracketRound.games.push(secondGame);
+        }
+
+        currentRound.bracket_rounds.push(bracketRound);
+
         indexToRemove.push(k + 1); //removing team 2 to replicate a elimination
       }
       //add current round with games
       this.tournament.rounds.push(currentRound);
+
+      //remove losers
       for (let k = 0; k < indexToRemove.length; k++) {
         teamsArray.splice(indexToRemove[k], 1);
       }
@@ -73,6 +87,17 @@ export class BracketComponent implements OnInit {
       gamesPerRound = newTeamCount / 2;
     }
     console.log(this.tournament);
+  }
+
+  private createGame(teamsArray: string[], index1: number, index2: number, score: number, score2:number) {
+    let currentGame = new Match();
+    currentGame.home = new Team();
+    currentGame.home.name = teamsArray[index1];
+    currentGame.home_score = score;
+    currentGame.away = new Team();
+    currentGame.away.name = teamsArray[index2];
+    currentGame.away_score = score2;
+    return currentGame;
   }
 
   getIsWinner(homeScore, awayScore) {

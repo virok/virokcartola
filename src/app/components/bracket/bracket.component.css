@@ -15,7 +15,7 @@ main{
 }
   .round .spacer{ flex-grow:1; }
   .round .spacer:first-child,
-  .round .spacer:last-child{ flex-grow:.5; }
+  .round .spacer:last-child{ flex-grow:.4; }
 
   .round .game-spacer{
     flex-grow:1;
@@ -30,17 +30,15 @@ main{
 }
 
 li.game{
-  padding-left:20px;
+  /* padding-left:2px; */
   min-width: 80px;
 }
 
-  li.game.winner{
-    font-weight:bold;
-    color: darkgreen;
+  li.game table tr td.winner{
+    border-bottom-color: darkgreen;
   }
 
-  li.game.loser{
-    font-weight:bold;
+  li.game table tr td.loser{
     color: darkred;
   }
 
@@ -49,7 +47,32 @@ li.game{
     margin-right:5px;
   }
 
-  li.game-top{ border-bottom:1px solid #aaa; }
+  li.game table{
+    border-spacing: 0;
+    white-space: nowrap;
+    border-collapse: collapse!important;
+  }
+  li.game table tr td:first-child{
+    width: 80%!important;
+  }
+  li.game table tr td{
+    background-color: #343a40;
+
+    border-style: solid;
+    border-width: thin;
+    border-top-width: 0px!important;
+    border-left-width: 0px!important;
+    border-right-width: 0px!important;
+    border-bottom-width: 4px!important;
+    border-bottom-color: #ffc107;
+    color:white;
+    font-size: 70%;
+    font-weight: bold;
+    font-family: sans-serif;
+    text-align: center;
+  }
+/*
+  li.game-top{ border-bottom:1px solid #aaa; } */
 
   li.game-spacer{
     border-right:5px solid #aaa;
@@ -58,12 +81,13 @@ li.game{
   }
 
     .spacer span{
-      background-color: #aaa;
-
-      border: solid 1px black;
+      background-color: #343a40!important;
+/*
+      border: solid 1px black; */
       padding: 10px 0px 10px 0px;
       display: block;
       margin-right: 5px;
+      color: white;
     }
    .spacer:first-child{
       text-align: center;
@@ -77,36 +101,17 @@ li.game{
       visibility: hidden;
     }
 
-  li.game-bottom{
+  /* li.game-bottom{
     border-top:1px solid #aaa;
-  }
+  } */
 
-  @media (min-width: 858px) {
+  @media (max-width: 858px) {
     #tournament-bracket {
-        font-size: 13px;
+      font-size: 1rem;
     }
   }
-
-  @media (min-width: 780px) {
+  @media (max-width: 690px) {
     #tournament-bracket {
-        font-size: 12px;
-    }
-  }
-
-  @media (min-width: 702px) {
-    #tournament-bracket{
-        font-size: 11px;
-    }
-  }
-
-  @media (min-width: 724px) {
-    #tournament-bracket {
-        font-size: 10px;
-    }
-  }
-
-  @media (max-width: 623px) {
-    #tournament-bracket {
-        font-size: 9px;
+        font-size: 0.75rem;
     }
   }
