@@ -54,6 +54,7 @@ li.game{
   }
   li.game table tr td:first-child{
     width: 80%!important;
+    height: 25px;
   }
   li.game table tr td{
     background-color: #343a40;
