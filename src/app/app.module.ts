@@ -41,6 +41,7 @@ import { ModalComponent } from './components/modal/modal.component';
 import { FooterMenuComponent } from './components/footer-menu/footer-menu.component';
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
 import { BracketComponent } from './components/bracket/bracket.component';
+import { EliminationTournamentService } from 'src/app/services/elimination-tournament/elimination-tournament.service';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import { BracketComponent } from './components/bracket/bracket.component';
     RoundService,
     TableService,
     MatchService,
-    BaseService
+    BaseService,
+    EliminationTournamentService
   ],
   bootstrap: [AppComponent]
 })

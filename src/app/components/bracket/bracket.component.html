@@ -1,11 +1,11 @@
-<h1>{{tournament.name}}</h1>
+<h1>{{tournament?.name}}</h1>
 <main id="tournament-bracket">
-  <ul class="round round-{{round.number}}" *ngFor="let round of tournament.rounds">
+  <ul class="round round-{{round.number}}" *ngFor="let round of tournament?.rounds">
 
     <ng-template ngFor let-game_group [ngForOf]="round.bracket_rounds">
       <li class="spacer"><span [innerHTML]="getRoundName(round)"></span>&nbsp;</li>
 
-      <ng-template [ngIf]="!tournament.isRoundRobin">
+      <ng-template [ngIf]="!tournament?.isRoundRobin">
 
         <ng-template ngFor let-game [ngForOf]="game_group.games">
 
@@ -39,7 +39,7 @@
 
       </ng-template>
 
-      <ng-template [ngIf]="tournament.isRoundRobin">
+      <ng-template [ngIf]="tournament?.isRoundRobin">
 
         <li class="game game-top">
           <table>

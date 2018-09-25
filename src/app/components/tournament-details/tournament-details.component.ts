@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTab, MatTabGroup, MatTabLabel, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { TournamentService } from 'src/app/services/tournament/tournament.service';
 import { Params, ActivatedRoute } from '@angular/router';
+import { TournamentType } from 'src/app/entities/TournamentType';
 
 
 
@@ -32,5 +33,9 @@ export class TournamentDetailsComponent implements OnInit {
       this.tournament = result.data();
       console.log(this.tournament)
     });
+  }
+
+  isRegularTournament(){
+    return this.tournament != null && (this.tournament.tournamentType == TournamentType.RoundRobin || this.tournament.tournamentType == null);
   }
 }
