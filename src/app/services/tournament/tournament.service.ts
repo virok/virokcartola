@@ -80,19 +80,11 @@ export abstract class TournamentService {
           const isRegularTournament = tournament.tournamentType == TournamentType.RoundRobin || tournament.tournamentType == null;
 
           //find the current round of a tournament(it is first with no games/matches with scores)
-          // const isCurrentRound = isRegularTournament ?
-          //   round.games.find(g => g.away_score == null) != null :
-          //   round.bracket_rounds.find(b => b.games.find(g => g.away_score == null) != null) != null;
           const isCurrentRound = this.isCurrentRound(round);
           //for each match, get and update the score like: match.home_score = data[match.home.name]
           //away_score = data[match.away.name]
           if (isCurrentRound) {
             service.addScores(round, data, tournament, roundIndex);
-            // if (isRegularTournament) {
-            //   this.addScoresToMatches(round.games, data);
-            // } else {
-            //   this.addScoresToBracketRounds(round, data, tournament, roundIndex);
-            // }
 
             foundAnEmptyRound = true;
             hasTournamentRoundsToPopulate = true;
@@ -142,23 +134,4 @@ export abstract class TournamentService {
   public abstract addScores(round: Round, data: any, tournament: Tournament, roundIndex: number);
 
   public abstract isCurrentRound(round: Round);
-  // {
-    // if (tournament.tournamentType == TournamentType.RoundRobin) {
-    //   this.createRegularTournament(tournament);
-    // } else if (tournament.tournamentType == TournamentType.Elimination) {
-    //   const hasCreated = this._eliminationTournamentService.createEliminationTournament(tournament, this.teams);
-    //   if (hasCreated) {
-    //     //it saves on DB
-    //     this.add(tournament).then(() => {
-    //       this._router.navigate(['tournament-list']);
-    //     });
-    //   }else{
-    //     this._modalService.error("Erro ao criar Campeonato");
-    //   }
-    // } else {
-    //   console.error("Invalid tournament type");
-    // }
-  // }
-
-
 }

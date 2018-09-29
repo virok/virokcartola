@@ -26,7 +26,7 @@ export class EliminationTournamentService extends TournamentService  {
   }
 
   public isCurrentRound(round: Round) {
-    throw new Error("Method not implemented.");
+    return round.bracket_rounds.find(b => b.games.find(g => g.away_score == null) != null) != null;
   }
 
   public createTournament(tournament) {
