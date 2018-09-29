@@ -14,3 +14,5 @@ export class Tournament extends IIdentifier {
   rounds: Round[];
   tournamentType: TournamentType
 }
+
+

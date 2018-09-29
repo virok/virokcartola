@@ -4,6 +4,7 @@ import { Tournament } from 'src/app/entities/tournament';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TournamentType } from '../../entities/TournamentType';
 import { TournamentFactoryService } from '../../services/tournament-factory/tournament-factory.service';
+import { TeamsService } from '../../services/teams/teams.service';
 
 @Component({
   selector: 'app-tournament',
@@ -17,8 +18,10 @@ export class TournamentComponent implements OnInit {
   tournamentTypes : string[];
 
   @ViewChild('input_name') tournamentNameInput: ElementRef;
+  teams: any;
 
-  constructor(private _tournamentFactory: TournamentFactoryService) {
+  constructor(private _tournamentFactory: TournamentFactoryService,
+    private _teamsService: TeamsService) {
 
   }
   private _tournamentService: TournamentService;
@@ -26,14 +29,16 @@ export class TournamentComponent implements OnInit {
   ngOnInit() {
     this.tournament = new Tournament();
     this.loadTournamentTypes();
+    this._teamsService.list().subscribe(teams => this.teams = teams);
     // this._activatedRoute.queryParams.subscribe((params: Params) => {
     //   //this.eventId = params['id'];
     // });
   }
 
   createTournament(){
+
     this._tournamentService = this._tournamentFactory.create(this.tournament);
-    this._tournamentService.createTournament(this.tournament);
+    this._tournamentService.createTournament(this.tournament, this.teams);
   }
 
   loadTournamentTypes(){

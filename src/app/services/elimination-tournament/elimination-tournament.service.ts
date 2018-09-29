@@ -17,24 +17,28 @@ import { TournamentFactoryService } from '../tournament-factory/tournament-facto
   providedIn: 'root'
 })
 export class EliminationTournamentService extends TournamentService  {
-  teams : Team[];
-  constructor(protected repository: RepositoryService<Tournament>, protected _router: Router
-    , protected _teamsService: TeamsService, protected _modalService: ModalService
-    ,protected _tournamentFactory: TournamentFactoryService,protected _tableService: TableService) {
-    super(repository, _router,_teamsService, _modalService,_tournamentFactory, _tableService);
+  constructor(protected repository: RepositoryService<Tournament>,
+    protected _router: Router,
+    protected _teamsService: TeamsService,
+    protected _modalService: ModalService,
+    // protected _tournamentFactory: TournamentFactoryService,
+    protected _tableService: TableService) {
+
+    super(repository, _router,_teamsService, _modalService, _tableService);
+
     this.TournamentType = TournamentType.Elimination;
+
   }
 
   public isCurrentRound(round: Round) {
     return round.bracket_rounds.find(b => b.games.find(g => g.away_score == null) != null) != null;
   }
 
-  public createTournament(tournament) {
+  public createTournament(tournament, teams:Team[]) {
     let hasCreated = false;
-    this.teams = this.teams;
     tournament.rounds = new Array<Round>();
 
-    let teamsCount = this.teams.length;
+    let teamsCount = teams.length;
     let gamesPerRound = teamsCount / 2;
     let totalKnockoutRounds = -1;
     let i = teamsCount;
@@ -48,7 +52,7 @@ export class EliminationTournamentService extends TournamentService  {
     let indexToRemove = new Array<number>();
     let previousIndex = 0;
 
-    this.createEliminationFirstRound(gamesPerRound, previousIndex, currentRound, tournament, indexToRemove);
+    this.createEliminationFirstRound(teams, gamesPerRound, previousIndex, currentRound, tournament, indexToRemove);
     //add current round with games
     tournament.rounds.push(currentRound);
 
@@ -164,7 +168,7 @@ export class EliminationTournamentService extends TournamentService  {
 
   }
 
-  private createEliminationFirstRound(gamesPerRound: number, previousIndex: number, currentRound: Round, tournament: Tournament, indexToRemove: number[]) {
+  private createEliminationFirstRound(teams: Team[],gamesPerRound: number, previousIndex: number, currentRound: Round, tournament: Tournament, indexToRemove: number[]) {
     for (let k = 0; k < gamesPerRound; k++) {
       let index1 = previousIndex == 0 ? k : previousIndex + 1;
       let index2 = index1 + 1;
@@ -178,7 +182,7 @@ export class EliminationTournamentService extends TournamentService  {
         bracketRound.games = new Array<Match>();
       }
       //adding a game
-      this.createBracketRoundGames(this.teams, index1, index2, bracketRound, tournament, currentRound);
+      this.createBracketRoundGames(teams, index1, index2, bracketRound, tournament, currentRound);
       indexToRemove.push(k + 1); //removing team 2 to replicate a elimination
     }
   }

@@ -17,23 +17,27 @@ import { TournamentFactoryService } from '../tournament-factory/tournament-facto
 })
 export class RegularTournamentService extends TournamentService {
 
-  constructor(protected repository: RepositoryService<Tournament>, protected _router: Router
-    , protected _teamsService: TeamsService, protected _modalService: ModalService
-    ,protected _tournamentFactory: TournamentFactoryService, protected _tableService: TableService) {
-    super(repository, _router,_teamsService, _modalService,_tournamentFactory, _tableService);
+  constructor(protected repository: RepositoryService<Tournament>,
+    protected _router: Router,
+    protected _teamsService: TeamsService,
+    protected _modalService: ModalService,
+    protected _tableService: TableService) {
+
+    super(repository, _router,_teamsService, _modalService, _tableService);
     this.TournamentType = TournamentType.RoundRobin;
+
   }
 
   public isCurrentRound(round: Round) {
     return  round.games.find(g => g.away_score == null) != null;
   }
 
-  public createTournament(tournament: Tournament) {
+  public createTournament(tournament: Tournament, teams: Team[]) {
     if (tournament.name) {
-      const isOdd = this.teams && this.teams.length % 2 === 0;
+      const isOdd = teams && teams.length % 2 === 0;
       // check if we have teams
       if (isOdd) {
-        const teamsCount = this.teams.length;
+        const teamsCount = teams.length;
         const gamesPerRound = teamsCount / 2;
         const isRoundRobin = tournament.isRoundRobin;
         let roundsCount = teamsCount - 1;
@@ -41,8 +45,8 @@ export class RegularTournamentService extends TournamentService {
           roundsCount = roundsCount * 2;
         }
         const midListSize = teamsCount / 2;
-        let homeTeams = Object.assign([], this.teams) as Team[];
-        let awayTeams = Object.assign([], this.teams) as Team[];
+        let homeTeams = Object.assign([], teams) as Team[];
+        let awayTeams = Object.assign([], teams) as Team[];
         homeTeams.splice(0, midListSize);
         awayTeams.splice(midListSize, midListSize);
         const rounds = new Array<Round>();

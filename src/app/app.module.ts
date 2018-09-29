@@ -44,6 +44,7 @@ import { BracketComponent } from './components/bracket/bracket.component';
 import { EliminationTournamentService } from 'src/app/services/elimination-tournament/elimination-tournament.service';
 import { RegularTournamentService } from 'src/app/services/regular-tournament/regular-tournament.service';
 import { TournamentFactoryService } from './services/tournament-factory/tournament-factory.service';
+import { AddScoreService } from 'src/app/services/add-score/add-score.service';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { TournamentFactoryService } from './services/tournament-factory/tourname
     BaseService,
     EliminationTournamentService,
     RegularTournamentService,
-    TournamentFactoryService
+    TournamentFactoryService,
+    AddScoreService
   ],
   bootstrap: [AppComponent]
 })

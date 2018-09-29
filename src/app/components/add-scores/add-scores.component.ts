@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { TeamsService } from 'src/app/services/teams/teams.service';
 import { Team } from 'src/app/entities/team';
-import { TournamentService } from '../../services/tournament/tournament.service';
 import { Tournament } from '../../entities/tournament';
-import { TournamentFactoryService } from '../../services/tournament-factory/tournament-factory.service';
 import { NgForm } from '@angular/forms';
+import { AddScoreService } from '../../services/add-score/add-score.service';
 
 @Component({
   selector: 'app-add-scores',
@@ -15,10 +14,10 @@ export class AddScoresComponent implements OnInit {
   teams: any[];
   showPage: boolean = false;
   tournaments: Tournament[];
-  _baseTournamentService: TournamentService;
 
-  constructor(private _teamsService: TeamsService
-    , private _tournamentFactory: TournamentFactoryService) { }
+  constructor(private _teamsService: TeamsService,
+    protected _addScoreService: AddScoreService
+    ) { }
 
   ngOnInit() {
     this.teams = new Array<Team>();
@@ -34,15 +33,14 @@ export class AddScoresComponent implements OnInit {
   }
 
   private loadTournaments() {
-    this._baseTournamentService = this._tournamentFactory.create(null);
-    this._baseTournamentService.list().subscribe((tournamentsResult => {
+    this._addScoreService.listTournaments().subscribe((tournamentsResult => {
       this.showPage = this.teams.length > 2 && this.teams.length % 2 == 0 && tournamentsResult.length > 0;
       this.tournaments = tournamentsResult;
     }));
   }
 
   add(inputs: NgForm, tournaments: Tournament[]) {
-    this._baseTournamentService.addScoresToSelectedTournaments(inputs,tournaments);
+    this._addScoreService.addScoresToSelectedTournaments(inputs, tournaments);
   }
 }
 
