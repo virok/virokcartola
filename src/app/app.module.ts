@@ -31,7 +31,7 @@ import { TournamentDetailsComponent } from './components/tournament-details/tour
 import { TableComponent } from './components/table/table.component';
 import { RoundsComponent } from './components/rounds/rounds.component';
 import { AddScoresComponent } from './components/add-scores/add-scores.component';
-import { TournamentService } from 'src/app/services/tournament/tournament.service';
+//import { TournamentService } from 'src/app/services/tournament/tournament.service';
 import { RoundService } from './services/round/round.service';
 import { TableService } from './services/table/table.service';
 import { MatchService } from './services/match/match.service';
@@ -42,6 +42,8 @@ import { FooterMenuComponent } from './components/footer-menu/footer-menu.compon
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
 import { BracketComponent } from './components/bracket/bracket.component';
 import { EliminationTournamentService } from 'src/app/services/elimination-tournament/elimination-tournament.service';
+import { RegularTournamentService } from 'src/app/services/regular-tournament/regular-tournament.service';
+import { TournamentFactoryService } from './services/tournament-factory/tournament-factory.service';
 
 @NgModule({
   declarations: [
@@ -82,12 +84,14 @@ import { EliminationTournamentService } from 'src/app/services/elimination-tourn
   providers: [
     RepositoryService,
     TeamsService,
-    TournamentService,
+   // TournamentService,
     RoundService,
     TableService,
     MatchService,
     BaseService,
-    EliminationTournamentService
+    EliminationTournamentService,
+    RegularTournamentService,
+    TournamentFactoryService
   ],
   bootstrap: [AppComponent]
 })

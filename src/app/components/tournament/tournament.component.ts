@@ -3,6 +3,7 @@ import { TournamentService } from 'src/app/services/tournament/tournament.servic
 import { Tournament } from 'src/app/entities/tournament';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TournamentType } from '../../entities/TournamentType';
+import { TournamentFactoryService } from '../../services/tournament-factory/tournament-factory.service';
 
 @Component({
   selector: 'app-tournament',
@@ -17,7 +18,10 @@ export class TournamentComponent implements OnInit {
 
   @ViewChild('input_name') tournamentNameInput: ElementRef;
 
-  constructor(private _tournamentService: TournamentService,) { }
+  constructor(private _tournamentFactory: TournamentFactoryService) {
+
+  }
+  private _tournamentService: TournamentService;
 
   ngOnInit() {
     this.tournament = new Tournament();
@@ -28,6 +32,7 @@ export class TournamentComponent implements OnInit {
   }
 
   createTournament(){
+    this._tournamentService = this._tournamentFactory.create(this.tournament);
     this._tournamentService.createTournament(this.tournament);
   }
 

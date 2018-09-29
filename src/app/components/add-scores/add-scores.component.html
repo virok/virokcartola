@@ -3,7 +3,7 @@
   Inclua um ou mais campeonatos e times antes de incluir a pontuação!
 </div>
 <div class="container" id="add-score" *ngIf="showPage">
-  <form #teamForm="ngForm" (ngSubmit)="add(teamForm)">
+  <form #teamForm="ngForm" (ngSubmit)="add(teamForm, tournaments)">
     <div class="add_score_list">
       <p>Times ({{teams.length}} )</p>
       <ul class="list-group">

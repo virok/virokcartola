@@ -3,40 +3,44 @@ import { RepositoryService } from '../database/repository.service';
 import { Tournament } from '../../entities/tournament';
 import { TeamsService } from 'src/app/services/teams/teams.service';
 import { Team } from 'src/app/entities/team';
-import { Match } from 'src/app/entities/match';
-import { Round } from 'src/app/entities/round';
 import { Observable } from 'rxjs/internal/Observable';
 import { ModalService } from '../modal/modal.service';
 import { Router } from '@angular/router';
-import { EliminationTournamentService } from 'src/app/services/elimination-tournament/elimination-tournament.service';
 import { TournamentType } from '../../entities/TournamentType';
+import { Round } from '../../entities/round';
+import { Match } from '../../entities/match';
+import { NgForm } from '@angular/forms';
+import { TournamentFactoryService } from '../tournament-factory/tournament-factory.service';
+import { TableService } from '../table/table.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TournamentService {
+export abstract class TournamentService {
 
   collectionName: string = 'tournaments';
-  teams: Team[];
 
-  constructor(protected repository: RepositoryService<Tournament>, private _router: Router
-    , private _teamsService: TeamsService, private _modalService: ModalService,
-    private _eliminationTournamentService: EliminationTournamentService) {
+  teams: Team[];
+  public TournamentType:TournamentType;
+
+  constructor(protected repository: RepositoryService<Tournament>, protected _router: Router
+    , protected _teamsService: TeamsService, protected _modalService: ModalService,
+    protected _tournamentFactory: TournamentFactoryService, protected _tableService: TableService) {
     //super(repository);
     //this.repository.initialize('tournaments');
 
     this._teamsService.list().subscribe(teams => this.teams = teams);
   }
 
-  list(): Observable<any[]> {
+  public list(): Observable<any[]> {
     return this.repository.list(this.collectionName);
   }
 
-  get(id: any) {
+  public get(id: any) {
     return this.repository.get(this.collectionName, id);
   }
 
-  add(tournament: Tournament) {
+  public add(tournament: Tournament) {
     return this.repository.add(this.collectionName, tournament)
       .then(() => {
         this._modalService.success("Campeonato criado com sucesso");
@@ -45,7 +49,7 @@ export class TournamentService {
       });
   }
 
-  update(tournament: Tournament, showSucessMessage: boolean = false) {
+  public update(tournament: Tournament, showSucessMessage: boolean = false) {
     return this.repository.update(this.collectionName, tournament).then(() => {
       if (showSucessMessage) {
         this._modalService.success("Campeonato atualizado com sucesso");
@@ -55,98 +59,106 @@ export class TournamentService {
     });
   }
 
-  createTournament(tournament: Tournament) {
-    if (tournament.tournamentType == TournamentType.RoundRobin) {
-      this.createRegularTournament(tournament);
-    } else if (tournament.tournamentType == TournamentType.Elimination) {
-      const hasCreated = this._eliminationTournamentService.createEliminationTournament(tournament, this.teams);
-      if (hasCreated) {
-        //it saves on DB
-        this.add(tournament).then(() => {
-          this._router.navigate(['tournament-list']);
-        });
-      }else{
-        this._modalService.error("Erro ao criar Campeonato");
-      }
-    } else {
-      console.error("Invalid tournament type");
+  public addScoresToSelectedTournaments(inputs: NgForm, tournaments: Tournament[]) {
+    const data = inputs.value;
+    let hasTournamentRoundsToPopulate = false;
+
+    let tournamentServices = new Array<TournamentService>();
+    tournamentServices.push(this._tournamentFactory.createByTournamentType(TournamentType.RoundRobin));
+    tournamentServices.push(this._tournamentFactory.createByTournamentType(TournamentType.Elimination));
+
+    //for each tournament
+    tournaments.forEach(tournament => {
+
+      let service = tournamentServices.find(x=>x.TournamentType == tournament.tournamentType);
+      let foundAnEmptyRound = false;
+
+      let roundIndex = 0;
+      tournament.rounds.forEach(round => {
+
+        if (!foundAnEmptyRound) {
+          const isRegularTournament = tournament.tournamentType == TournamentType.RoundRobin || tournament.tournamentType == null;
+
+          //find the current round of a tournament(it is first with no games/matches with scores)
+          // const isCurrentRound = isRegularTournament ?
+          //   round.games.find(g => g.away_score == null) != null :
+          //   round.bracket_rounds.find(b => b.games.find(g => g.away_score == null) != null) != null;
+          const isCurrentRound = this.isCurrentRound(round);
+          //for each match, get and update the score like: match.home_score = data[match.home.name]
+          //away_score = data[match.away.name]
+          if (isCurrentRound) {
+            service.addScores(round, data, tournament, roundIndex);
+            // if (isRegularTournament) {
+            //   this.addScoresToMatches(round.games, data);
+            // } else {
+            //   this.addScoresToBracketRounds(round, data, tournament, roundIndex);
+            // }
+
+            foundAnEmptyRound = true;
+            hasTournamentRoundsToPopulate = true;
+
+            //After every team has its score updated for that round
+            //create a table data / table if not created yet.
+            if(isRegularTournament){
+              this._tableService.createOrUpdateTable(tournament, round);
+            }
+
+            //persist match values in FIRE STORE NOSQL
+            //TODO Check if it is going to update
+            service.update(tournament, false);
+
+            //redict to tournaments page
+            this._router.navigate(["tournament-list"]);
+          }
+        }
+
+        roundIndex + roundIndex + 1;
+      });
+
+    });
+
+    if (!hasTournamentRoundsToPopulate) {
+      this._modalService.warning("Todos os Campeonatos já estão preenchidos");
+      //redict to tournaments page
+      this._router.navigate(["tournament-list"]);
     }
   }
 
-  private createRegularTournament(tournament: Tournament) {
-    if (tournament.name) {
-      const isOdd = this.teams && this.teams.length % 2 === 0;
-      // check if we have teams
-      if (isOdd) {
-        const teamsCount = this.teams.length;
-        const gamesPerRound = teamsCount / 2;
-        const isRoundRobin = tournament.isRoundRobin;
-        let roundsCount = teamsCount - 1;
-        if (isRoundRobin) {
-          roundsCount = roundsCount * 2;
-        }
-        const midListSize = teamsCount / 2;
-        let homeTeams = Object.assign([], this.teams) as Team[];
-        let awayTeams = Object.assign([], this.teams) as Team[];
-        homeTeams.splice(0, midListSize);
-        awayTeams.splice(midListSize, midListSize);
-        const rounds = new Array<Round>();
-        let isSecondTurnAlready = false;
-        for (let roundIndex = 0; roundIndex < roundsCount; roundIndex++) {
-          console.log(`Round ${roundIndex + 1}:`);
-          const games = new Array<Match>();
-          for (let i = 0; i < gamesPerRound; i++) {
-            const invertHomeAwayGameForFixedTeam = i === 0 && roundIndex % 2 === 0;
-            const j = (gamesPerRound - 1) - i;
-            const game: Match = new Match();
-            if (!invertHomeAwayGameForFixedTeam && i === 0 || !isSecondTurnAlready && i > 0) {
-              game.home = homeTeams[i];
-              game.away = awayTeams[j];
-            }
-            else {
-              game.home = awayTeams[j];
-              game.away = homeTeams[i];
-            }
-            //contains
-            if (games.some(x => x.away.name == game.away.name && x.home.name == game.home.name)) {
-              throw new Error('Game Already exists');
-            }
-            if (game.away.name === game.home.name) {
-              throw new Error('same team???? WTH?');
-            }
-            //add at first position
-            games.push(game);
-            console.log(`Game ${i + 1}: ${game.home.name} X ${game.away.name}`);
-          }
-          const round = new Round();
-          round.number = roundIndex + 1;
-          round.games = games;
-          rounds.push(round);
-          console.log("-----------------------------------------------------------------------------------------");
-          if (isRoundRobin && roundIndex + 1 === roundsCount / 2) {
-            console.log('New Turn...');
-            isSecondTurnAlready = true;
-          }
-          let lastItemOfHome = homeTeams[homeTeams.length - 1];
-          // remove the last
-          homeTeams = homeTeams.filter(item => item.name !== lastItemOfHome.name);
-          // insert at first position
-          awayTeams.splice(0, 0, lastItemOfHome);
-          // Last Item of Away List goes to the Second Index of the Home list, because the first one is FIXED
-          let lastItemOfAway = awayTeams[awayTeams.length - 1];
-          awayTeams = awayTeams.filter(item => item.name !== lastItemOfAway.name);
-          homeTeams.splice(1, 0, lastItemOfAway);
-          //this.Rotate(homeTeams, awayTeams);
-        }
-        tournament.rounds = rounds;
-        //it saves on DB
-        this.add(tournament).then(() => {
-          this._router.navigate(['tournament-list']);
-        });
-      }
-      else {
-        this._modalService.warning('Cadastre times primeiro, e necessário numero par de times');
-      }
-    }
+  public addScoresToMatches(games: Match[], data: any) {
+    games.forEach(match => {
+      this.addScoreToMatch(match, data);
+    });
   }
+
+  public addScoreToMatch(match: Match, data: any) {
+    if (match.home_score == null)
+      match.home_score = data[match.home.name];
+    if (match.away_score == null)
+      match.away_score = data[match.away.name];
+  }
+
+  public abstract createTournament(tournament: Tournament);
+
+  public abstract addScores(round: Round, data: any, tournament: Tournament, roundIndex: number);
+
+  public abstract isCurrentRound(round: Round);
+  // {
+    // if (tournament.tournamentType == TournamentType.RoundRobin) {
+    //   this.createRegularTournament(tournament);
+    // } else if (tournament.tournamentType == TournamentType.Elimination) {
+    //   const hasCreated = this._eliminationTournamentService.createEliminationTournament(tournament, this.teams);
+    //   if (hasCreated) {
+    //     //it saves on DB
+    //     this.add(tournament).then(() => {
+    //       this._router.navigate(['tournament-list']);
+    //     });
+    //   }else{
+    //     this._modalService.error("Erro ao criar Campeonato");
+    //   }
+    // } else {
+    //   console.error("Invalid tournament type");
+    // }
+  // }
+
+
 }

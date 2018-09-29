@@ -4,18 +4,34 @@ import { BracketRound } from '../../entities/bracketRound';
 import { Team } from '../../entities/team';
 import { Match } from '../../entities/match';
 import { Tournament } from 'src/app/entities/tournament';
+import { TournamentService } from '../tournament/tournament.service';
+import { RepositoryService } from '../database/repository.service';
+import { Router } from '@angular/router';
+import { TeamsService } from '../teams/teams.service';
+import { ModalService } from '../modal/modal.service';
+import { TournamentType } from '../../entities/TournamentType';
+import { TableService } from '../table/table.service';
+import { TournamentFactoryService } from '../tournament-factory/tournament-factory.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EliminationTournamentService {
-
+export class EliminationTournamentService extends TournamentService  {
   teams : Team[];
-  constructor() { }
+  constructor(protected repository: RepositoryService<Tournament>, protected _router: Router
+    , protected _teamsService: TeamsService, protected _modalService: ModalService
+    ,protected _tournamentFactory: TournamentFactoryService,protected _tableService: TableService) {
+    super(repository, _router,_teamsService, _modalService,_tournamentFactory, _tableService);
+    this.TournamentType = TournamentType.Elimination;
+  }
 
-  public createEliminationTournament(tournament, teams: Team[]) {
-    let result = false;
-    this.teams = teams;
+  public isCurrentRound(round: Round) {
+    throw new Error("Method not implemented.");
+  }
+
+  public createTournament(tournament) {
+    let hasCreated = false;
+    this.teams = this.teams;
     tournament.rounds = new Array<Round>();
 
     let teamsCount = this.teams.length;
@@ -41,10 +57,69 @@ export class EliminationTournamentService {
 
     this.populateNextRounds(tournament, gamesPerRound, totalKnockoutRounds);
 
-    result = tournament.rounds.length == totalKnockoutRounds;
+    hasCreated = tournament.rounds.length == totalKnockoutRounds;
     console.log(tournament);
 
-    return result;
+    if (hasCreated) {
+      //it saves on DB
+      this.add(tournament).then(() => {
+        this._router.navigate(['tournament-list']);
+      });
+    }else{
+      this._modalService.error("Erro ao criar Campeonato");
+    }
+
+  }
+
+  public addScores(round: Round, data: any, tournament: Tournament, roundIndex: number) {
+    if (round.bracket_rounds != null) {
+      round.bracket_rounds.forEach(bracketRound => {
+        let match = bracketRound.games.find(x => x.away_score == null);
+        if (match) {
+          this.addScoreToMatch(match, data);
+        }
+        let hasAnyMatchLeft = bracketRound.games.find(x => x.away_score == null || x.home_score == null) != null;
+        if (!hasAnyMatchLeft) {
+          // winner team should move to the next round
+          let winnerTeam = this.getWinnerTeam(match);
+          let nextRound = tournament.rounds[roundIndex + 1];
+          if (nextRound) {
+            //find the same bracketRound number or the closest one
+            let nextbracketRound = nextRound.bracket_rounds.find(x => x.number == bracketRound.number);
+            if (!nextbracketRound) {
+              let bracketNumber = bracketRound.number - 1;
+              while (nextbracketRound == null && bracketNumber >= 0) {
+                nextbracketRound = nextRound.bracket_rounds.find(x => x.number == bracketNumber);
+                if (nextbracketRound) {
+                  bracketNumber = -1; // exit while
+                }
+                else {
+                  bracketNumber = bracketNumber - 1;
+                }
+              }
+            }
+            if (nextbracketRound) {
+              //add teams to the bracket round games
+              nextbracketRound.games.forEach(x => {
+                if (x.home.name == "" || x.home.name == null) {
+                  x.home = winnerTeam;
+                }
+                else if (x.away.name == "" || x.away.name == null) {
+                  x.away = winnerTeam;
+                }
+              });
+            }
+            else {
+              console.error("Not able to find the next bracket Round");
+            }
+          }
+        }
+      });
+    }
+  }
+
+  getWinnerTeam(match: Match): Team {
+    return match.home_score > match.away_score ? match.home : match.away;
   }
 
   private populateNextRounds(tournament: Tournament, gamesPerRound: number, totalKnockoutRounds: number): any {
