@@ -65,6 +65,8 @@ export class EliminationTournamentService extends TournamentService  {
             else {
               console.error("Not able to find the next bracket Round");
             }
+          }else{
+            tournament.winner = winnerTeam;
           }
         }
       });

@@ -1,0 +1,8 @@
+#tournament-select{
+  margin-bottom: 20px;
+}
+#tournament-select div.pretty {
+  display: block;
+  width: 100%;
+  padding: 4px;
+}

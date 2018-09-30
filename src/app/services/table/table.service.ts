@@ -64,7 +64,14 @@ export class TableService extends BaseService<Table> {
     });
 
     this.setTablePositions(tournament);
+    this.checkIfWeHaveTournamentWinner(tournament);
+  }
 
+  checkIfWeHaveTournamentWinner(tournament: Tournament): any {
+    const stillHasGamesToPlay = tournament.rounds.some(x=>x.games.some(y=>y.away_score == null && y.home_score == null));
+    if(!stillHasGamesToPlay){
+      tournament.winner = tournament.table.rows[0].team;
+    }
   }
 
   private setDrawPoints(homeTeamTableData: TableData, awayTeamTableData: TableData) {

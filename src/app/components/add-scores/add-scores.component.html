@@ -6,6 +6,22 @@
   <form #teamForm="ngForm" (ngSubmit)="add(teamForm, tournaments)">
     <div class="add_score_list">
       <p>Times ({{teams.length}} )</p>
+      <p>A pontuaçãos será inclusa nos campeonatos ativos(que ainda estão sendo disputados e não tem um campeão),
+        selecionados abaixo, por padrão todos estão selecionados.</p>
+
+      <div id="tournament-select" >
+        <div class="pretty p-switch  p-fill" *ngFor="let tournament of tournaments">
+          <input type="checkbox"
+          name="selectedTournaments[]"
+          id="{{tournament.name}}"
+          (change)="onSelectedTournamentsChange($event, tournament.id)"
+           checked="checked"  />
+          <div class="state p-primary">
+            <label>{{tournament.name}}</label>
+          </div>
+        </div>
+      </div>
+
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let teamItem of teams">
           {{teamItem.name}}

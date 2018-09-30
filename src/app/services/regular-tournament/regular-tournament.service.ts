@@ -51,6 +51,7 @@ export class RegularTournamentService extends TournamentService {
         awayTeams.splice(midListSize, midListSize);
         const rounds = new Array<Round>();
         let isSecondTurnAlready = false;
+
         for (let roundIndex = 0; roundIndex < roundsCount; roundIndex++) {
           console.log(`Round ${roundIndex + 1}:`);
           const games = new Array<Match>();
@@ -66,6 +67,7 @@ export class RegularTournamentService extends TournamentService {
               game.home = awayTeams[j];
               game.away = homeTeams[i];
             }
+
             //contains
             if (games.some(x => x.away.name == game.away.name && x.home.name == game.home.name)) {
               throw new Error('Game Already exists');
@@ -112,4 +114,5 @@ export class RegularTournamentService extends TournamentService {
   public addScores(round: Round, data: any, tournament: Tournament, roundIndex: number) {
     this.addScoresToMatches(round.games, data);
   }
+
 }
