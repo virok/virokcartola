@@ -30,6 +30,91 @@ export class EliminationTournamentService extends TournamentService  {
 
   }
 
+  /**
+   * It adds scores for an existing tournament
+   */
+  public addScores(round: Round, data: any, tournament: Tournament, roundIndex: number) {
+    if (round.bracket_rounds != null) {
+      round.bracket_rounds.forEach(bracketRound => {
+
+        let match = bracketRound.games.find(x => x.away_score == null);
+        if (match) {
+          this.addScoreToMatch(match, data);
+        }
+
+        let hasAnyMatchLeft = bracketRound.games.find(x => x.away_score == null || x.home_score == null) != null;
+
+        if (!hasAnyMatchLeft) {
+          // winner team should move to the next round
+          let winnerTeam = this.getWinnerTeam(match);
+          let nextRound = tournament.rounds[roundIndex + 1];
+          if (nextRound) {
+            //find the same bracketRound number or the closest one
+            let nextbracketRound = this.getNextBracketRound(nextRound, bracketRound);
+            if (nextbracketRound) {
+              //add teams to the bracket round games
+              nextbracketRound.games.forEach(x => {
+                if (x.home.name == "" || x.home.name == null) {
+                  x.home = winnerTeam;
+                }
+                else if (x.away.name == "" || x.away.name == null) {
+                  x.away = winnerTeam;
+                }
+              });
+            }
+            else {
+              console.error("Not able to find the next bracket Round");
+            }
+          }
+        }
+      });
+    }
+  }
+
+  private getNextBracketRound(nextRound: Round, bracketRound: BracketRound) {
+
+    const totalRounds = nextRound.bracket_rounds.length;
+
+    // let nextbracketRound = nextRound.bracket_rounds.find(x => x.number == bracketRound.number);
+    // if (!nextbracketRound) {
+
+      let nextbracketRound = null;
+      let bracketNumber = 1;
+      while (nextbracketRound == null && bracketNumber <= totalRounds) {
+        nextbracketRound = nextRound.bracket_rounds.find(x => x.number == bracketNumber
+            && x.games.some(y=>y.home.name == "" || y.away.name == "")
+        );
+
+        if (nextbracketRound) {
+          bracketNumber = totalRounds+1; // exit while
+        }
+        else {
+          bracketNumber = bracketNumber + 1;
+        }
+      }
+      // let bracketNumber = bracketRound.number - 1;
+      // while (nextbracketRound == null && bracketNumber >= 0) {
+      //   nextbracketRound = nextRound.bracket_rounds.find(x => x.number == bracketNumber);
+      //   if (nextbracketRound) {
+      //     bracketNumber = -1; // exit while
+      //   }
+      //   else {
+      //     bracketNumber = bracketNumber - 1;
+      //   }
+      // }
+
+   // }
+    return nextbracketRound;
+  }
+
+  getWinnerTeam(match: Match): Team {
+    return match.home_score > match.away_score ? match.home : match.away;
+  }
+
+  /**
+   * Tournament creation methods
+   */
+
   public isCurrentRound(round: Round) {
     return round.bracket_rounds.find(b => b.games.find(g => g.away_score == null) != null) != null;
   }
@@ -73,57 +158,6 @@ export class EliminationTournamentService extends TournamentService  {
       this._modalService.error("Erro ao criar Campeonato");
     }
 
-  }
-
-  public addScores(round: Round, data: any, tournament: Tournament, roundIndex: number) {
-    if (round.bracket_rounds != null) {
-      round.bracket_rounds.forEach(bracketRound => {
-        let match = bracketRound.games.find(x => x.away_score == null);
-        if (match) {
-          this.addScoreToMatch(match, data);
-        }
-        let hasAnyMatchLeft = bracketRound.games.find(x => x.away_score == null || x.home_score == null) != null;
-        if (!hasAnyMatchLeft) {
-          // winner team should move to the next round
-          let winnerTeam = this.getWinnerTeam(match);
-          let nextRound = tournament.rounds[roundIndex + 1];
-          if (nextRound) {
-            //find the same bracketRound number or the closest one
-            let nextbracketRound = nextRound.bracket_rounds.find(x => x.number == bracketRound.number);
-            if (!nextbracketRound) {
-              let bracketNumber = bracketRound.number - 1;
-              while (nextbracketRound == null && bracketNumber >= 0) {
-                nextbracketRound = nextRound.bracket_rounds.find(x => x.number == bracketNumber);
-                if (nextbracketRound) {
-                  bracketNumber = -1; // exit while
-                }
-                else {
-                  bracketNumber = bracketNumber - 1;
-                }
-              }
-            }
-            if (nextbracketRound) {
-              //add teams to the bracket round games
-              nextbracketRound.games.forEach(x => {
-                if (x.home.name == "" || x.home.name == null) {
-                  x.home = winnerTeam;
-                }
-                else if (x.away.name == "" || x.away.name == null) {
-                  x.away = winnerTeam;
-                }
-              });
-            }
-            else {
-              console.error("Not able to find the next bracket Round");
-            }
-          }
-        }
-      });
-    }
-  }
-
-  getWinnerTeam(match: Match): Team {
-    return match.home_score > match.away_score ? match.home : match.away;
   }
 
   private populateNextRounds(tournament: Tournament, gamesPerRound: number, totalKnockoutRounds: number): any {

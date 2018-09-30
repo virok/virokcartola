@@ -67,6 +67,7 @@ export abstract class TournamentService {
   public addScoreToMatch(match: Match, data: any) {
     if (match.home_score == null)
       match.home_score = data[match.home.name];
+
     if (match.away_score == null)
       match.away_score = data[match.away.name];
   }

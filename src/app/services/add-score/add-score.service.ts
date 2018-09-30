@@ -76,7 +76,7 @@ export class AddScoreService {
           }
         }
 
-        roundIndex + roundIndex + 1;
+        roundIndex = roundIndex + 1;
       });
 
     });
