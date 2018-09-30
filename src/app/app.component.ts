@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ToasterConfigService } from './services/toaster-config/toaster-config.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'VirokCartola';
+  constructor(public _toasterConfigService: ToasterConfigService){
+
+  }
 }

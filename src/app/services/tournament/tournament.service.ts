@@ -4,12 +4,12 @@ import { Tournament } from '../../entities/tournament';
 import { TeamsService } from 'src/app/services/teams/teams.service';
 import { Team } from 'src/app/entities/team';
 import { Observable } from 'rxjs/internal/Observable';
-import { ModalService } from '../modal/modal.service';
 import { Router } from '@angular/router';
 import { TournamentType } from '../../entities/TournamentType';
 import { Round } from '../../entities/round';
 import { Match } from '../../entities/match';
 import { TableService } from '../table/table.service';
+import { ToasterService } from 'angular2-toaster';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,7 @@ export abstract class TournamentService {
   constructor(protected repository: RepositoryService<Tournament>,
     protected _router: Router ,
     protected _teamsService: TeamsService,
-    protected _modalService: ModalService,
+    protected _toaster: ToasterService,
     protected _tableService: TableService) {
     //super(repository);
     //this.repository.initialize('tournaments');
@@ -42,19 +42,19 @@ export abstract class TournamentService {
   public add(tournament: Tournament) {
     return this.repository.add(this.collectionName, tournament)
       .then(() => {
-        this._modalService.success("Campeonato criado com sucesso");
+        this._toaster.pop("success","","Campeonato criado com sucesso");
       }, () => {
-        this._modalService.error("Erro ao criar Campeonato");
+        this._toaster.pop("error","","Erro ao criar Campeonato");
       });
   }
 
   public update(tournament: Tournament, showSucessMessage: boolean = false) {
     return this.repository.update(this.collectionName, tournament).then(() => {
       if (showSucessMessage) {
-        this._modalService.success("Campeonato atualizado com sucesso");
+        this._toaster.pop("success","","Campeonato atualizado com sucesso");
       }
     }, () => {
-      this._modalService.error("Erro ao Atualizar Campeonato");
+      this._toaster.pop("error","","Erro ao Atualizar Campeonato");
     });
   }
 

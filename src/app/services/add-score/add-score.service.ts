@@ -6,8 +6,8 @@ import { TournamentType } from '../../entities/TournamentType';
 import { TableService } from '../table/table.service';
 import { Router } from '@angular/router';
 import { TeamsService } from '../teams/teams.service';
-import { ModalService } from '../modal/modal.service';
 import { TournamentFactoryService } from '../tournament-factory/tournament-factory.service';
+import { ToasterService } from 'angular2-toaster';
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +19,9 @@ export class AddScoreService {
   constructor(
     protected _router: Router ,
     protected _teamsService: TeamsService,
-    protected _modalService: ModalService,
     protected _tableService: TableService,
-    protected _factoryService: TournamentFactoryService
+    protected _factoryService: TournamentFactoryService,
+    private _toaster: ToasterService
     ) {
 
       this.services = new Array<TournamentService>();
@@ -71,6 +71,7 @@ export class AddScoreService {
             //TODO Check if it is going to update
             this.currentService.update(tournament, false);
 
+            this._toaster.pop("success","","Pontuação incluída com sucesso");
             //redict to tournaments page
             this._router.navigate(["tournament-list"]);
           }
@@ -82,7 +83,7 @@ export class AddScoreService {
     });
 
     if (!hasTournamentRoundsToPopulate) {
-      this._modalService.warning("Todos os Campeonatos já estão preenchidos");
+      this._toaster.pop("warning","","Todos os Campeonatos já estão preenchidos");
       //redict to tournaments page
       this._router.navigate(["tournament-list"]);
     }

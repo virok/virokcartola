@@ -7,10 +7,9 @@ import { Match } from '../../entities/match';
 import { RepositoryService } from '../database/repository.service';
 import { Router } from '@angular/router';
 import { TeamsService } from '../teams/teams.service';
-import { ModalService } from '../modal/modal.service';
 import { TournamentType } from '../../entities/TournamentType';
 import { TableService } from '../table/table.service';
-import { TournamentFactoryService } from '../tournament-factory/tournament-factory.service';
+import { ToasterService } from 'angular2-toaster';
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +19,10 @@ export class RegularTournamentService extends TournamentService {
   constructor(protected repository: RepositoryService<Tournament>,
     protected _router: Router,
     protected _teamsService: TeamsService,
-    protected _modalService: ModalService,
+    protected _toaster: ToasterService,
     protected _tableService: TableService) {
 
-    super(repository, _router,_teamsService, _modalService, _tableService);
+    super(repository, _router,_teamsService, _toaster, _tableService);
     this.TournamentType = TournamentType.RoundRobin;
 
   }
@@ -106,7 +105,7 @@ export class RegularTournamentService extends TournamentService {
         });
       }
       else {
-        this._modalService.warning('Cadastre times primeiro, e necessário numero par de times');
+        this._toaster.pop("warning","",'Cadastre times primeiro, e necessário numero par de times');
       }
     }
   }

@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { ToasterModule } from 'angular2-toaster';
 import {MatButtonModule,
   MatCheckboxModule,
   MatExpansionModule,
@@ -65,6 +66,7 @@ import { AddScoreService } from 'src/app/services/add-score/add-score.service';
     ModalComponent],
   imports: [
     AppRoutingModule, BrowserModule, NgbModule.forRoot(),
+    ToasterModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase, environment.firebase.projectId), // imports firebase/app needed for everything
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     // AngularFireAuthModule, // imports firebase/auth, only needed for auth features,

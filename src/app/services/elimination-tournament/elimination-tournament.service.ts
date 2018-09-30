@@ -8,10 +8,9 @@ import { TournamentService } from '../tournament/tournament.service';
 import { RepositoryService } from '../database/repository.service';
 import { Router } from '@angular/router';
 import { TeamsService } from '../teams/teams.service';
-import { ModalService } from '../modal/modal.service';
 import { TournamentType } from '../../entities/TournamentType';
 import { TableService } from '../table/table.service';
-import { TournamentFactoryService } from '../tournament-factory/tournament-factory.service';
+import { ToasterService } from 'angular2-toaster';
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +19,11 @@ export class EliminationTournamentService extends TournamentService  {
   constructor(protected repository: RepositoryService<Tournament>,
     protected _router: Router,
     protected _teamsService: TeamsService,
-    protected _modalService: ModalService,
+    protected _toaster: ToasterService,
     // protected _tournamentFactory: TournamentFactoryService,
     protected _tableService: TableService) {
 
-    super(repository, _router,_teamsService, _modalService, _tableService);
+    super(repository, _router,_teamsService, _toaster, _tableService);
 
     this.TournamentType = TournamentType.Elimination;
 
@@ -50,7 +49,7 @@ export class EliminationTournamentService extends TournamentService  {
           let nextRound = tournament.rounds[roundIndex + 1];
           if (nextRound) {
             //find the same bracketRound number or the closest one
-            let nextbracketRound = this.getNextBracketRound(nextRound, bracketRound);
+            let nextbracketRound = this.getNextBracketRound(nextRound);
             if (nextbracketRound) {
               //add teams to the bracket round games
               nextbracketRound.games.forEach(x => {
@@ -73,7 +72,7 @@ export class EliminationTournamentService extends TournamentService  {
     }
   }
 
-  private getNextBracketRound(nextRound: Round, bracketRound: BracketRound) {
+  private getNextBracketRound(nextRound: Round) {
 
     const totalRounds = nextRound.bracket_rounds.length;
 
@@ -157,7 +156,7 @@ export class EliminationTournamentService extends TournamentService  {
         this._router.navigate(['tournament-list']);
       });
     }else{
-      this._modalService.error("Erro ao criar Campeonato");
+      this._toaster.pop("warning","","Erro ao criar Campeonato");
     }
 
   }

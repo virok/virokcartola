@@ -4,10 +4,6 @@ import { TournamentService } from '../tournament/tournament.service';
 import { TournamentType } from '../../entities/TournamentType';
 import { Injector } from '@angular/core'
 import { RegularTournamentService } from '../regular-tournament/regular-tournament.service';
-import { RepositoryService } from '../database/repository.service';
-import { Router } from '@angular/router';
-import { TeamsService } from '../teams/teams.service';
-import { ModalService } from '../modal/modal.service';
 import { EliminationTournamentService } from '../elimination-tournament/elimination-tournament.service';
 
 @Injectable({
@@ -15,8 +11,7 @@ import { EliminationTournamentService } from '../elimination-tournament/eliminat
 })
 export class TournamentFactoryService {
 
-  constructor(private injector: Injector, protected repository: RepositoryService<Tournament>, protected _router: Router
-    , protected _teamsService: TeamsService, protected _modalService: ModalService) { }
+  constructor(private injector: Injector) { }
 
   createByTournamentType(type: TournamentType): TournamentService{
     switch (type) {
