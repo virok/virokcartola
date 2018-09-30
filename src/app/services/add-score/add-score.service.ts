@@ -70,10 +70,6 @@ export class AddScoreService {
             //persist match values in FIRE STORE NOSQL
             //TODO Check if it is going to update
             this.currentService.update(tournament, false);
-
-            this._toaster.pop("success","","Pontuação incluída com sucesso");
-            //redict to tournaments page
-            this._router.navigate(["tournament-list"]);
           }
         }
 
@@ -84,6 +80,10 @@ export class AddScoreService {
 
     if (!hasTournamentRoundsToPopulate) {
       this._toaster.pop("warning","","Todos os Campeonatos já estão preenchidos");
+      //redict to tournaments page
+      this._router.navigate(["tournament-list"]);
+    }else{
+      this._toaster.pop("success","","Pontuação incluída com sucesso");
       //redict to tournaments page
       this._router.navigate(["tournament-list"]);
     }
