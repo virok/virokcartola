@@ -33,16 +33,13 @@
   </form>
 
   <br>
-  <div class="teams_list">
+  <div class="teams_list" *ngIf="teams?.length > 0">
     <p>Times ({{teams.length}})</p>
     <div class="list-group">
-      <!-- <li class="list-group-item" *ngFor="let teamItem of teams"> -->
-        <a [routerLink]="['/teams',teamItem.id]" class="list-group-item list-group-item-action"
-        [ngClass]="{active: team?.name == teamItem.name}" (click)="gotoSection();"
-        routerLinkActive="router-link-active" *ngFor="let teamItem of teams">
-          {{teamItem.name}}
-        </a>
-      <!-- </li> -->
-      </div>
+      <a [routerLink]="['/teams',teamItem.id]" class="list-group-item list-group-item-action" [ngClass]="{active: team?.name == teamItem.name}"
+        (click)="gotoSection();" routerLinkActive="router-link-active" *ngFor="let teamItem of teams">
+        {{teamItem.name}}
+      </a>
+    </div>
   </div>
 </div>

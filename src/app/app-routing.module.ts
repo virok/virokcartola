@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: 'teams', component: TeamsComponent },
   { path: 'teams/:id', component: TeamsComponent },
   { path: 'tournaments', component: TournamentComponent },
+  { path: 'tournaments/:id', component: TournamentComponent },
   { path: 'add-scores', component: AddScoresComponent },
   { path: 'tournament-list', component: TournamentListComponent },
   { path: 'tournament-details/:id', component: TournamentDetailsComponent },

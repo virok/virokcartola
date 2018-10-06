@@ -11,7 +11,8 @@
         </div>
       </div>
     </div>
-    <div class="form-group">
+
+    <div class="form-group" *ngIf="!isEditing">
       <label for="name">Tipo de Campeonato:</label>
       <select name="tournamentType" id="tournamentType"  class="form-control" [(ngModel)]="tournament.tournamentType">
         <option *ngFor="let type of tournamentTypes" value="{{type}}">{{type}}</option>
@@ -22,14 +23,31 @@
 
     <!-- IMG PICKER and/or url placement for Tournament-->
 
-    <div class="form-group">
+    <div class="form-group"  *ngIf="!isEditing">
       <mat-checkbox [checked]="isRoundRobin" name="isRoundRobin" [(ngModel)]="tournament.isRoundRobin">Ida e Volta</mat-checkbox>
     </div>
 
     <div class="col-md-4 text-center button_placeholder">
       <button id="add-tournament" name="add-tournament" class="btn btn-primary" (click)="createTournament();" type="submit"
         [disabled]="!tournamentForm.form.valid">
-        Adicionar</button>
+        {{buttonLabel}}
+      </button>
+      <br><br>
+      <button *ngIf="isEditing"
+      id="delete-tournament" name="delete-tournament" class="btn btn-danger" (click)="deleteTournament(tournament);" type="button">
+      Apagar
+    </button>
     </div>
   </form>
+
+  <br>
+  <div class="teams_list" *ngIf="tournaments?.length > 0">
+    <p>Campeonatos ({{tournaments?.length}})</p>
+    <div class="list-group">
+      <a [routerLink]="['/tournaments',tournamentItem.id]" class="list-group-item list-group-item-action" [ngClass]="{active: tournament?.name == tournamentItem.name}"
+        (click)="gotoSection();" routerLinkActive="router-link-active" *ngFor="let tournamentItem of tournaments">
+        {{tournamentItem.name}}
+      </a>
+    </div>
+  </div>
 </div>

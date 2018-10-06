@@ -32,6 +32,10 @@ export abstract class TournamentService {
     //this._teamsService.list().subscribe(teams => this.teams = teams);
   }
 
+  public delete(id){
+    return this.repository.delete(this.collectionName, id);
+  }
+
   public list(): Observable<any[]> {
     return this.repository.list(this.collectionName);
   }

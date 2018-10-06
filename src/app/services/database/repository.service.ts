@@ -20,8 +20,21 @@ export class RepositoryService<T extends IIdentifier> {
 
   }
 
+  delete(collectionName,id: any): Promise<void> {
+    return this.db.collection(collectionName).doc(`${id}`).delete();
+  }
+
   get(collectionName, id){
-    return this.db.collection(collectionName).doc(`${id}`).get();
+    return this.db.collection(collectionName).doc(`${id}`).get()
+    .pipe(
+      map(result=>{
+        if(result){
+          const data = result.data() as T;
+          data.id = result.id;
+          return data;
+        }
+      })
+    )
     // this.db.collection(collectionName).doc(`${collectionName}/${id}`).get().subscribe(result=>{
     //   return result.data();
     // });

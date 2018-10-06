@@ -37,7 +37,7 @@ export class TeamsComponent implements OnInit {
       this.id = params['id'];
       if (this.id) {
         this._teamsService.get(this.id).subscribe(x => {
-          this.team = x.data();
+          this.team = x;
           this.setEditMode(true);
         })
       }
@@ -47,7 +47,7 @@ export class TeamsComponent implements OnInit {
   public gotoSection() {
     //this will provide smooth animation for the scroll
     this.teamNameInput.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
-}
+  }
   private setEditMode(value: boolean) {
     this.isEditing = value;
     this.buttonLabel = value? "Atualizar" : "Adicionar";

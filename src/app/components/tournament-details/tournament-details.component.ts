@@ -30,7 +30,7 @@ export class TournamentDetailsComponent implements OnInit {
 
   get() {
     this.tournamnetService.get(this.id).subscribe(result => {
-      this.tournament = result.data();
+      this.tournament = result;
       console.log(this.tournament)
     });
   }
