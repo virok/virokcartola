@@ -4,8 +4,8 @@
   <form #teamForm="ngForm">
     <div class="form-group">
       <label for="name">Time:</label>
-      <input type="text" class="form-control" id="name" name="name" [(ngModel)]="team.name" #name="ngModel" autocomplete="off" #input_name
-        required>
+      <input type="text" class="form-control" id="name" name="name" [(ngModel)]="team.name" #name="ngModel"
+        autocomplete="off" #input_name required>
       <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
         <div [hidden]="!name.errors.required">
           Time e obrigatório.
@@ -24,17 +24,25 @@
 
     </div>
 
-    <div class="col-md-4 text-center button_placeholder" >
-      <button id="add-team" name="add-team" class="btn btn-primary" (click)="add();" type="submit" [disabled]="!teamForm.form.valid">
-        Adicionar</button>
+    <div class="col-md-4 text-center button_placeholder">
+      <button id="add-team"
+      name="add-team" class="btn btn-primary" (click)="save();" type="submit" [disabled]="!teamForm.form.valid"
+      [innerText]="buttonLabel">
+        </button>
     </div>
   </form>
 
   <br>
   <div class="teams_list">
     <p>Times ({{teams.length}})</p>
-    <ul class="list-group">
-      <li class="list-group-item" *ngFor="let teamItem of teams">{{teamItem.name}}</li>
-    </ul>
+    <div class="list-group">
+      <!-- <li class="list-group-item" *ngFor="let teamItem of teams"> -->
+        <a [routerLink]="['/teams',teamItem.id]" class="list-group-item list-group-item-action"
+        [ngClass]="{active: team?.name == teamItem.name}" (click)="gotoSection();"
+        routerLinkActive="router-link-active" *ngFor="let teamItem of teams">
+          {{teamItem.name}}
+        </a>
+      <!-- </li> -->
+      </div>
   </div>
 </div>

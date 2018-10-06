@@ -46,6 +46,7 @@ import { EliminationTournamentService } from 'src/app/services/elimination-tourn
 import { RegularTournamentService } from 'src/app/services/regular-tournament/regular-tournament.service';
 import { TournamentFactoryService } from './services/tournament-factory/tournament-factory.service';
 import { AddScoreService } from 'src/app/services/add-score/add-score.service';
+import { TournamentRepositoryService } from './services/database/tournament-repository.service';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { AddScoreService } from 'src/app/services/add-score/add-score.service';
   ],
   providers: [
     RepositoryService,
+    TournamentRepositoryService,
     TeamsService,
    // TournamentService,
     RoundService,

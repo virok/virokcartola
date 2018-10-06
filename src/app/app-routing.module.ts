@@ -10,6 +10,7 @@ import { BracketComponent } from './components/bracket/bracket.component';
 
 const routes: Routes = [
   { path: 'teams', component: TeamsComponent },
+  { path: 'teams/:id', component: TeamsComponent },
   { path: 'tournaments', component: TournamentComponent },
   { path: 'add-scores', component: AddScoresComponent },
   { path: 'tournament-list', component: TournamentListComponent },

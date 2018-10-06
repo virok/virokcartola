@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 // import 'rxjs/Rx';
 import { map } from "rxjs/operators"
 import { IIdentifier } from 'src/app/entities/IIdentifier';
+import { promise } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class RepositoryService<T extends IIdentifier> {
   collection: AngularFirestoreCollection<T>;
   //private taskDoc: AngularFirestoreDocument<T>;
 
-  constructor(private db: AngularFirestore) {
+  constructor(protected db: AngularFirestore) {
 
   }
 
@@ -54,8 +55,16 @@ export class RepositoryService<T extends IIdentifier> {
     return this.db.collection(collectionName).add(data);
   }
 
-  update(collectionName, instance: T) {
+  update(collectionName, instance: T): Promise<boolean> {
     const data = JSON.parse(JSON.stringify(instance));
     return this.db.collection(collectionName).doc(instance.id).set(data, { merge: true })
+    .then(
+      () => {
+        return true;
+      }
+    )
+    .catch(() => {
+        return false;
+      })
   }
 }

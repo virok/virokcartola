@@ -10,6 +10,7 @@ import { Round } from '../../entities/round';
 import { Match } from '../../entities/match';
 import { TableService } from '../table/table.service';
 import { ToasterService } from 'angular2-toaster';
+import { TournamentRepositoryService } from '../database/tournament-repository.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export abstract class TournamentService {
 
   public TournamentType:TournamentType;
 
-  constructor(protected repository: RepositoryService<Tournament>,
+  constructor(protected repository: TournamentRepositoryService,
     protected _router: Router ,
     protected _teamsService: TeamsService,
     protected _toaster: ToasterService,
@@ -56,6 +57,10 @@ export abstract class TournamentService {
     }, () => {
       this._toaster.pop("error","","Erro ao Atualizar Campeonato");
     });
+  }
+
+  updateTeamInTournaments(team: Team): any {
+    return this.repository.updateTeamInTournaments(this.collectionName, team);
   }
 
   public addScoresToMatches(games: Match[], data: any) {

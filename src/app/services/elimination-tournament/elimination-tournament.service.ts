@@ -11,12 +11,13 @@ import { TeamsService } from '../teams/teams.service';
 import { TournamentType } from '../../entities/TournamentType';
 import { TableService } from '../table/table.service';
 import { ToasterService } from 'angular2-toaster';
+import { TournamentRepositoryService } from '../database/tournament-repository.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EliminationTournamentService extends TournamentService  {
-  constructor(protected repository: RepositoryService<Tournament>,
+  constructor(protected repository: TournamentRepositoryService,
     protected _router: Router,
     protected _teamsService: TeamsService,
     protected _toaster: ToasterService,
