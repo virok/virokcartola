@@ -255,3 +255,33 @@ h6 { font-size: .65em; }
   // font-size: $font-size-button;
   font-weight: bold;
 }
+
+// @import "_buttons.scss";
+// .mat-button.mat-primary { @extend .btn; }
+
+.mat-button.mat-primary label{
+  margin-bottom: 0px!important;
+}
+.mat-button.mat-primary {
+  margin-bottom: 8px;
+  width:100%;
+  margin-left: 0px!important;
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}

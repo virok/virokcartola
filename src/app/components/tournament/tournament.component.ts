@@ -82,7 +82,7 @@ export class TournamentComponent implements OnInit {
           this._router.navigate(['tournaments']);
         }
       )
-    })
+    }).catch(()=>{});
   }
 
   createTournament(){

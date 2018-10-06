@@ -55,8 +55,6 @@ export class TableComponent implements OnInit {
 
   }
 
-  //ngCheck
-
   load(){
     if(this.tournament || this.tournamentId){
 
