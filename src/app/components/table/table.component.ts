@@ -62,7 +62,7 @@ export class TableComponent implements OnInit {
 
       if(!this.tournament){
         this.tournamnetService.get(this.tournamentId).subscribe(result => {
-          this.tournament = result.data();
+          this.tournament = result;
 
           this.loadDataSource();
           //console.log(this.tournament)
